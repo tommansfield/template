@@ -1,0 +1,33 @@
+localhost:8080/oauth2/authorize/facebook?redirect_uri=/auth/callback
+localhost:8080/oauth2/authorize/google?redirect_uri=/auth/callback
+localhost:8080/oauth2/authorize/github?redirect_uri=/auth/callback
+
+TODO
+
+===== Easy =====
+
+Finish front (welcome/404) - get images for logo and 'oops'
+Finish mail
+Move account controller functionality to account service.
+Regit
+
+===== Medium =====
+
+Fix pass validation
+Add swagger
+Add dev/prod env - find way to inject sample data. Enviromental variables?
+Create user-admin methods
+Create and maintain functionality list - Start with controllers/oauth
+Add roles
+
+===== Hard =====
+
+Create tests - based on controller method - use functionality list.
+Explore Auth server transformation - micr-oservice architecture - ref JHipster ?
+Explore metrics - simplicity
+
+===== Front =====
+
+Add boostrap to project
+Find skip tests solution
+Create login page.

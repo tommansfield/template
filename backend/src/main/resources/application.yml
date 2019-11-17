@@ -1,0 +1,89 @@
+spring:
+  application:
+    name: Template
+    
+  profiles:
+    active: dev, local
+  
+  datasource:
+    #H2
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:~/template;DB_CLOSE_ON_EXIT=FALSE
+        
+    #SQL
+    #driver-class-name: com.mysql.cj.jdbc.Driver
+    #url: jdbc:mysql://localhost:3306/template?useSSL=false&zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC
+
+    username: 
+    password: 
+    
+  devtools:
+    add-properties: false
+  
+  h2:
+    console:
+      enabled: false
+      path: /console
+  
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+            
+  main:
+     allow-bean-definition-overriding: true
+     
+  security:
+    oauth2:
+      client:
+        registration:
+          facebook:
+            client-id: 
+            client-secret: 
+            scope: email, public_profile
+            client-name: facebook
+            redirect-uri: "{baseUrl}/oauth2/callback/{registrationId}"
+          google:
+            client-id: 
+            client-secret: 
+            scope: profile, email
+            client-name: google
+            redirect-uri: "{baseUrl}/oauth2/callback/{registrationId}"
+          github:
+            client-id: 
+            client-secret: 
+            scope: user:email
+            client-name: github
+            redirect-uri: "{baseUrl}/oauth2/callback/{registrationId}"
+        provider:
+          facebook:
+            userInfoUri: https://graph.facebook.com/v3.0/me?fields=name,short_name,email,picture.width(250).height(250)
+            
+  view:
+    prefix: /resources/templates
+
+logging:
+  level:
+    root: INFO
+    web: INFO
+    com.tom: DEBUG
+    
+app:
+  name: Template
+  swaggerUrl: /swagger
+  auth:
+    tokenSecret: 
+    tokenValidityMSecs: 864000000
+    authorizedRedirectUris: http://localhost:4200/, http://localhost:8080/
+    internalCallbackUri: /auth/callback
+  cookies:
+    oAuthCookieName: access_token
+    redirectCookieName: redirect_uri
+    oAuthCookieTimeout: 3600
+  mail:
+    username: 
+    password: 
+    host: smtp.gmail.com
+    port: 587

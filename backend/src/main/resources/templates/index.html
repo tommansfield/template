@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title th:text="${title}"></title>
+</head>
+<body>
+	<div>
+		<h2 th:text="${title}"></h2>
+		<p th:text="'Welcome to the ' + ${title} +'!'">
+		<p>Head to the <a th:href='${swaggerUrl}'>swagger</a> to get started.</p>
+	</div>
+</body>
+</html>

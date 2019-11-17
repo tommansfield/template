@@ -80,7 +80,8 @@ public class User implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastLogin;
 	
-	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval= true)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval= true)
+	@JsonIgnore
 	private Set<VerificationToken> tokens;
 
 	@ManyToMany(fetch = FetchType.EAGER)

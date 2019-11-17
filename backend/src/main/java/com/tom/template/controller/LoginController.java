@@ -1,5 +1,6 @@
 package com.tom.template.controller;
 
+import java.io.IOException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,7 +35,6 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 public class LoginController {
 	
-	
 	private MessageUtils messages;
 	private UserService userService;
 	private TokenProvider tokenProvider;
@@ -59,9 +59,12 @@ public class LoginController {
     }
 	
 	@GetMapping("/callback")
-	private ResponseEntity<TokenResponse> oAuth2TokenCallback(HttpServletRequest request, HttpServletResponse response) {
-		String token = CookieUtils.getCookie(request, "token").map(Cookie::getValue).get();
+	private ResponseEntity<TokenResponse> oAuth2TokenCallback(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String token = CookieUtils.getCookie(request, "token").map(Cookie::getValue).orElse(null);
 		CookieUtils.addCookie(response, "token", null, 1);
+		if (token == null) {
+			response.sendRedirect("/callbackerror"); 
+		}
 		return ResponseEntity.ok(new TokenResponse(token));
 	}
 	

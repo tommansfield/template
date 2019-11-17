@@ -2,14 +2,10 @@ localhost:8080/oauth2/authorize/facebook?redirect_uri=/auth/callback
 localhost:8080/oauth2/authorize/google?redirect_uri=/auth/callback
 localhost:8080/oauth2/authorize/github?redirect_uri=/auth/callback
 
-TODO
-
 ===== Easy =====
 
 Finish front (welcome/404) - get images for logo and 'oops'
 Finish mail
-Move account controller functionality to account service.
-Regit
 
 ===== Medium =====
 

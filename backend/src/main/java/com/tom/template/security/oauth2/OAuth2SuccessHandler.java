@@ -2,6 +2,7 @@ package com.tom.template.security.oauth2;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.Base64;
 import java.util.Optional;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +32,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     	String targetUrl = determineTargetUrl(request, response); 
     	clearAuthenticationAttributes(request, response);
     	String token = tokenProvider.createToken(((OAuthUser) authentication.getPrincipal()).getId());
-    	CookieUtils.addCookie(response, "token", token, 20);
+    	String encodedToken = Base64.getEncoder().encodeToString(token.getBytes());
+    	CookieUtils.addCookie(response, "token", encodedToken, 30);
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 	

@@ -1,6 +1,7 @@
 package com.tom.template.controller;
 
 import java.io.IOException;
+import java.util.Base64;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ import com.tom.template.dto.LoginRequest;
 import com.tom.template.dto.SignUpRequest;
 import com.tom.template.dto.TokenResponse;
 import com.tom.template.entity.User;
+import com.tom.template.exception.AuthRequestException;
 import com.tom.template.exception.BadRequestException;
 import com.tom.template.security.LocalUser;
 import com.tom.template.security.token.TokenProvider;
@@ -51,6 +53,7 @@ public class LoginController {
 	
 	@PostMapping("/signup")
     public ResponseEntity<TokenResponse> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+		signUpRequest = userService.decode(signUpRequest);
 		signUpRequest.setPassword(encoder.encode(signUpRequest.getPassword()));
 		User user = userService.createUser(signUpRequest);
         log.debug("Registering new local user account for: {}", user.getEmail());
@@ -61,11 +64,12 @@ public class LoginController {
 	@GetMapping("/callback")
 	private ResponseEntity<TokenResponse> oAuth2TokenCallback(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String token = CookieUtils.getCookie(request, "token").map(Cookie::getValue).orElse(null);
-		CookieUtils.addCookie(response, "token", null, 1);
 		if (token == null) {
-			response.sendRedirect("/callbackerror"); 
+			throw new AuthRequestException(messages.getMessage("error.oauth.authrefused"));
 		}
-		return ResponseEntity.ok(new TokenResponse(token));
+		String decodedToken =  new String(Base64.getDecoder().decode(token));
+		CookieUtils.addCookie(response, "token", null, 0);
+		return ResponseEntity.ok(new TokenResponse(decodedToken));
 	}
 	
 	@GetMapping("/callbackerror")

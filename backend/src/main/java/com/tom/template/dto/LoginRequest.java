@@ -6,7 +6,7 @@ import com.tom.template.util.validation.ValidEmail;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
+@Getter @Setter
 public class LoginRequest {
 	
 	@ValidEmail
@@ -16,7 +16,6 @@ public class LoginRequest {
 	private String username;
 
 	@NotNull(message = "No password provided.")
-	@Setter
 	private String password;
 	
 }

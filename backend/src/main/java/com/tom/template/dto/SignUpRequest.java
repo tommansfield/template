@@ -9,7 +9,7 @@ import com.tom.template.util.validation.ValidEmail;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
+@Getter @Setter
 @PasswordMatches
 public class SignUpRequest implements Password {
 	
@@ -20,8 +20,6 @@ public class SignUpRequest implements Password {
 	@Size(min = 3, max = 15)
 	private String username;
 
-	@Setter
-	
 	@NotNull(message = "No password provided.")
 	private String password;
 	

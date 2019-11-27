@@ -1,5 +1,6 @@
 package com.tom.template.service;
 
+import java.util.Base64;
 import java.util.Date;
 import java.util.Optional;
 import javax.transaction.Transactional;
@@ -52,4 +53,9 @@ public class UserService implements UserDetailsService {
         return userRep.save(user);
 	}
 	
+	public SignUpRequest decode(SignUpRequest signup) {
+		signup.setEmail(new String(Base64.getDecoder().decode(signup.getEmail())));
+		signup.setUsername(new String(Base64.getDecoder().decode(signup.getUsername())));
+		return signup;
+	}
 }

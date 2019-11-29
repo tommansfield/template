@@ -14,7 +14,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tom.template.util.TokenType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,7 +32,6 @@ public class VerificationToken implements Serializable {
 	private Long id;
 	
 	@ManyToOne
-	@JsonIgnore
     private User user;
 	
 	@Column(unique = true)

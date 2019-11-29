@@ -5,7 +5,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @Component
 public class MessageUtils {
@@ -25,11 +24,11 @@ public class MessageUtils {
 	    return messageSource;
 	}
 	
-	@Bean
-	public LocalValidatorFactoryBean getValidator() {
-	    LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
-	    bean.setValidationMessageSource(messageSource());
-	    return bean;
-	}
+//	@Bean
+//	public LocalValidatorFactoryBean getValidator() {
+//	    LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
+//	    bean.setValidationMessageSource(messageSource());
+//	    return bean;
+//	}
 	
 }

@@ -16,16 +16,16 @@ import com.tom.template.security.OAuthUser;
 import com.tom.template.security.token.TokenProvider;
 import com.tom.template.util.CookieUtils;
 import com.tom.template.util.MessageUtils;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 	
-	private Properties properties;
-	private MessageUtils messages;
-	private TokenProvider tokenProvider;
-    private OAuth2RequestRepository oAuth2RequestRepository;
+	private final Properties properties;
+	private final MessageUtils messages;
+	private final TokenProvider tokenProvider;
+    private final OAuth2RequestRepository oAuth2RequestRepository;
     
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {

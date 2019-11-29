@@ -6,15 +6,15 @@ import org.springframework.stereotype.Service;
 import com.tom.template.config.Properties;
 import com.tom.template.util.MessageUtils;
 import com.tom.template.util.TokenType;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class EmailService {
 
-	public Properties properties;;
-	public MessageUtils messages;
-	public JavaMailSender emailSender;
+	public final Properties properties;;
+	public final MessageUtils messages;
+	public final JavaMailSender emailSender;
 
 	public void sendMail(String email, TokenType tokenType) {
 		SimpleMailMessage message = new SimpleMailMessage();

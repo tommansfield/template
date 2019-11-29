@@ -3,7 +3,6 @@ package com.tom.template.controller;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,25 +15,23 @@ import com.tom.template.entity.User;
 import com.tom.template.security.CurrentUser;
 import com.tom.template.service.AccountService;
 import com.tom.template.util.TokenType;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/account")
 public class AccountController {
 	
-	private ApiResponse response;
-	private AccountService accountService;
-	private PasswordEncoder encoder;
+	private final ApiResponse response;
+	private final AccountService accountService;
 	
 	@PostMapping("/requestverifyemailtoken")
 	public ResponseEntity<?> createVerificationToken(@CurrentUser User user) {
 		boolean success = accountService.createToken(user, TokenType.VERIFYEMAIL);
 		return success ? response.send(HttpStatus.CREATED, "user.token.sent", user.getEmail())
 				: response.send(HttpStatus.BAD_GATEWAY, "error.token.unabletosend", user.getEmail());
-			
 	} 
 	
 	@PostMapping("/requestresetpasswordtoken")
@@ -46,7 +43,6 @@ public class AccountController {
 	
 	@PostMapping("/verifyemail")
 	public ResponseEntity<?> verifyEmail(@CurrentUser User user, @RequestParam(required = true) String token) {
-		log.debug("REST request to verify email address: {}", user.getEmail());
 		boolean success = accountService.verifyEmail(user, token);
 		return success ? response.send(HttpStatus.OK, "user.email.verified", user.getEmail())
 				: response.send(HttpStatus.BAD_GATEWAY, "error.token.incorrecttoken");
@@ -70,7 +66,6 @@ public class AccountController {
 	
 	@PostMapping("/changepassword")
 	public ResponseEntity<?> changePassword(@CurrentUser User user, @Valid @RequestBody ChangePassword changePass) {
-		changePass.setPassword(encoder.encode(changePass.getPassword()));
 		boolean success = accountService.changePassword(user, changePass);
 		return success ? response.send(HttpStatus.OK,"user.password.changed")
 				: response.send(HttpStatus.UNAUTHORIZED, "error.auth.wrongpassword");
@@ -78,7 +73,6 @@ public class AccountController {
 	
 	@PostMapping("/addpassword")
 	public ResponseEntity<?> addPassword(@CurrentUser User user, @Valid @RequestBody ChangePassword changePass) {
-		changePass.setPassword(encoder.encode(changePass.getPassword()));
 		boolean success = accountService.changePassword(user, changePass);
 		return success ? response.send(HttpStatus.OK,"user.password.added")
 				: response.send(HttpStatus.BAD_REQUEST, "error.password.passexists");

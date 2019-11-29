@@ -18,37 +18,37 @@ import com.tom.template.security.oauth2.OAuth2SuccessHandler;
 import com.tom.template.security.token.TokenAuthFilter;
 import com.tom.template.service.OAuth2UserService;
 import com.tom.template.service.UserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
-@AllArgsConstructor
+@RequiredArgsConstructor
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
-	private UserService userService;
-	private OAuth2UserService oAuth2UserService;
-    private OAuth2SuccessHandler successHandler;
-    private OAuth2FailureHandler failureHandler;
-    private TokenAuthFilter tokenAuthenticationFilter;
-    private OAuth2RequestRepository oAuth2RequestRepository;
+	private final UserService userService;
+	private final OAuth2UserService oAuth2UserService;
+    private final OAuth2SuccessHandler successHandler;
+    private final OAuth2FailureHandler failureHandler;
+    private final TokenAuthFilter tokenAuthenticationFilter;
+    private final OAuth2RequestRepository oAuth2RequestRepository;
 
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
 	}
-	 
+
+	@Bean
+	public BCryptPasswordEncoder encoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userService).passwordEncoder(encoder());
 	}
 	
-	@Bean
-	public BCryptPasswordEncoder encoder() {
-		return new BCryptPasswordEncoder();
-	}
-
 	@Override
 	  protected void configure(HttpSecurity http) throws Exception {
 		// @formatter:off

@@ -81,7 +81,7 @@ public class User implements Serializable {
 	private Date lastLogin;
 	
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval= true)
-	@JsonIgnore
+
 	private Set<VerificationToken> tokens;
 
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -129,12 +129,16 @@ public class User implements Serializable {
 	}
 	
 	public Role addRole(Role role) {
-		roles.add(role);
+		if (!this.hasRole(role)) {
+			roles.add(role);
+		}
 		return role;
 	}
 
 	public void removeRole(Role role) {
-		roles.remove(role);
+		if (this.hasRole(role)) {
+			roles.remove(role);
+		}
 	}
 
 	public boolean hasRole(Role role) {

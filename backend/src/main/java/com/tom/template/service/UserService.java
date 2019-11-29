@@ -5,25 +5,41 @@ import java.util.Date;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.tom.template.dto.SignUpRequest;
+import com.tom.template.dto.TokenResponse;
 import com.tom.template.entity.User;
 import com.tom.template.exception.ResourceNotFoundException;
 import com.tom.template.repository.UserRepository;
 import com.tom.template.security.LocalUser;
+import com.tom.template.security.token.TokenProvider;
 import com.tom.template.util.MessageUtils;
 import com.tom.template.util.validation.ValidEmailValidator;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
-	private UserRepository userRep;
-	private MessageUtils messages;
+	private final MessageUtils messages;
+	private final TokenProvider tokenProvider;
+	private final UserRepository userRep;
+	
+	@Autowired @Lazy
+	private AuthenticationManager authenticationManager;
+
+	@Autowired @Lazy
+	private PasswordEncoder encoder;
 	
 	@Override
 	@Transactional
@@ -34,6 +50,7 @@ public class UserService implements UserDetailsService {
 		if (user.isPresent()) {
 			User existingUser = user.get();
 			existingUser.setLastLogin(new Date());
+			existingUser.getTokens().isEmpty();
 			return LocalUser.create(existingUser);
 		} else {
 			throw new UsernameNotFoundException(messages.getMessage(error, login));
@@ -49,13 +66,17 @@ public class UserService implements UserDetailsService {
 
 	@Transactional
 	public User createUser(@Valid SignUpRequest signUpRequest) {
+		signUpRequest.setPassword(encoder.encode(signUpRequest.getPassword()));
         User user = new User(signUpRequest);
         return userRep.save(user);
 	}
 	
-	public SignUpRequest decode(SignUpRequest signup) {
-		signup.setEmail(new String(Base64.getDecoder().decode(signup.getEmail())));
-		signup.setUsername(new String(Base64.getDecoder().decode(signup.getUsername())));
-		return signup;
+	public TokenResponse createToken(String login, String password) {
+		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login, password));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = tokenProvider.createToken(((LocalUser) authentication.getPrincipal()).getId());
+        return new TokenResponse(Base64.getEncoder().encodeToString(token.getBytes()));
+
 	}
+	
 }

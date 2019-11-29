@@ -5,13 +5,13 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Component;
 import com.tom.template.config.Properties;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class EmailUtils {
 
-	private Properties properties;
+	private final Properties properties;
 	
 	@Bean
 	public JavaMailSender getJavaMailSender() {

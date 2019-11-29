@@ -10,16 +10,16 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TokenProvider {
 	
-	private Properties properties;
-
+	private final Properties properties;
+	
 	public String createToken(Long id) {
 		Date expiryDate = new Date(new Date().getTime() + properties.getAuth().getTokenValidityMSecs());
 		return Jwts.builder()
@@ -29,7 +29,7 @@ public class TokenProvider {
                 .signWith(SignatureAlgorithm.HS512, properties.getAuth().getTokenSecret())
                 .compact();
     }		
-
+	
 	public Long getUserIdFromToken(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(properties.getAuth().getTokenSecret())

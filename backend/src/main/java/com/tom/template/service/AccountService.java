@@ -48,7 +48,7 @@ public class AccountService {
 	@Transactional
 	public boolean verifyEmail(User user, String tokenValue) {
 		if (!user.hasToken(TokenType.VERIFYEMAIL)) {
-			throw new BadRequestException(messages.getMessage("error.token.alreadyverified", user.getEmail()));
+			throw new BadRequestException(messages.get("error.token.alreadyverified", user.getEmail()));
 		}
 		Set<VerificationToken> tokenCopies = new HashSet<>(user.getTokens());
 		for (VerificationToken t : tokenCopies) {

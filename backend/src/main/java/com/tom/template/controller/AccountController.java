@@ -26,6 +26,7 @@ public class AccountController {
 	
 	private final ApiResponse response;
 	private final AccountService accountService;
+
 	
 	@PostMapping("/requestverifyemailtoken")
 	public ResponseEntity<?> createVerificationToken(@CurrentUser User user) {
@@ -55,13 +56,11 @@ public class AccountController {
 				: response.send(HttpStatus.BAD_REQUEST, "error.token.incorrecttoken");
 	}
 	
-	
-	@PostMapping("/changeemail")
-	public ResponseEntity<?> changeEmail(@CurrentUser User user, @Valid @RequestBody ChangeEmail changeEmail) {
-		log.debug("REST request to change email address: {}", changeEmail.getEmail());
-		boolean success = accountService.changeEmail(user, changeEmail);
-		return success ? response.send(HttpStatus.OK, "user.email.changed")
-				: response.send(HttpStatus.BAD_GATEWAY, "error.token.unabletosend", user.getEmail());
+	@PostMapping("/addpassword")
+	public ResponseEntity<?> addPassword(@CurrentUser User user, @Valid @RequestBody ChangePassword changePass) {
+		boolean success = accountService.changePassword(user, changePass);
+		return success ? response.send(HttpStatus.OK,"user.password.added")
+				: response.send(HttpStatus.BAD_REQUEST, "error.password.passexists");
 	}
 	
 	@PostMapping("/changepassword")
@@ -71,11 +70,14 @@ public class AccountController {
 				: response.send(HttpStatus.UNAUTHORIZED, "error.auth.wrongpassword");
 	}
 	
-	@PostMapping("/addpassword")
-	public ResponseEntity<?> addPassword(@CurrentUser User user, @Valid @RequestBody ChangePassword changePass) {
-		boolean success = accountService.changePassword(user, changePass);
-		return success ? response.send(HttpStatus.OK,"user.password.added")
-				: response.send(HttpStatus.BAD_REQUEST, "error.password.passexists");
+	@PostMapping("/changeemail")
+	public ResponseEntity<?> changeEmail(@CurrentUser User user, @Valid @RequestBody ChangeEmail changeEmail) {
+		log.debug("REST request to change email address: {}", changeEmail.getEmail());
+		boolean success = accountService.changeEmail(user, changeEmail);
+		return success ? response.send(HttpStatus.OK, "user.email.changed")
+				: response.send(HttpStatus.BAD_GATEWAY, "error.token.unabletosend", user.getEmail());
 	}
+	
+	
 	
 }

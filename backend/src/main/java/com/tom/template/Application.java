@@ -31,7 +31,7 @@ public class Application {
 				roleRep.saveAll(roles);
 			}
 			if (userRep.count() == 0) {
-				userRep.save(new User("admin", "admin@admin.com", encoder.encode("password"), 
+				userRep.save(new User("admin@admin.com", encoder.encode("password"), 
 						Arrays.asList(Role.ADMIN, Role.USER).stream().collect(Collectors.toSet())));
 			}
 		};

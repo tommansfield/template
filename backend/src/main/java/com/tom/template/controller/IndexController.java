@@ -16,7 +16,7 @@ public class IndexController {
 
 	@GetMapping("/")
     public String welcome(Model model) {
-		String title = messages.getMessage("home.title", properties.getName());
+		String title = messages.get("home.title", properties.getName());
         model.addAttribute("title", title);
         model.addAttribute("swaggerUrl", properties.getSwaggerUrl());
         return "index";

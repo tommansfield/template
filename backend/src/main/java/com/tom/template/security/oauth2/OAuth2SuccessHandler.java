@@ -41,7 +41,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 	protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response) {
         Optional<String> redirectUri = CookieUtils.getCookie(request, properties.getCookies().getRedirectCookieName()).map(Cookie::getValue);
         if(redirectUri.isPresent() && !isAuthorizedRedirectUri(redirectUri.get())) {
-            throw new BadRequestException(messages.getMessage("error.oauth.unauthorisedurl", redirectUri.get()));
+            throw new BadRequestException(messages.get("error.oauth.unauthorisedurl", redirectUri.get()));
         }
        return redirectUri.orElse(getDefaultTargetUrl());
     }

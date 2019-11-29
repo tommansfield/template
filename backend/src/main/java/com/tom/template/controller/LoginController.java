@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tom.template.dto.LoginRequest;
 import com.tom.template.dto.SignUpRequest;
 import com.tom.template.dto.TokenResponse;
-import com.tom.template.entity.User;
 import com.tom.template.exception.AuthRequestException;
 import com.tom.template.exception.BadRequestException;
 import com.tom.template.service.UserService;
@@ -34,17 +33,15 @@ public class LoginController {
 
 	@PostMapping("/login")
 	public ResponseEntity<TokenResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-		String login = loginRequest.getEmail() == null ? loginRequest.getUsername() : loginRequest.getEmail();
-		log.debug("Login attempt for local user: {}", login);
-		TokenResponse token = userService.createToken(login, loginRequest.getPassword());
+		log.debug("Login attempt for local user: {}", loginRequest.getEmail());
+		TokenResponse token = userService.createToken(loginRequest.getEmail(), loginRequest.getPassword());
 		return ResponseEntity.ok(token);
 	}
 
 	@PostMapping("/signup")
-	public ResponseEntity<TokenResponse> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-		User user = userService.createUser(signUpRequest);
-		log.debug("Registering new local user account for: {}", user.getEmail());
-		TokenResponse token = userService.createToken(user.getEmail(), signUpRequest.getPassword());
+	public ResponseEntity<TokenResponse> registerUser(@Valid @RequestBody SignUpRequest signup) throws InterruptedException {
+		TokenResponse token = userService.createUser(signup);
+		log.debug("Registering new local user account for: {}", signup.getEmail());
 		return ResponseEntity.ok(token);
 	}
 
@@ -53,7 +50,7 @@ public class LoginController {
 			throws IOException {
 		String token = CookieUtils.getCookie(request, "token").map(Cookie::getValue).orElse(null);
 		if (token == null) { 
-			throw new AuthRequestException(messages.getMessage("error.oauth.authrefused")); 
+			throw new AuthRequestException(messages.get("error.oauth.authrefused")); 
 		}
 		CookieUtils.deleteCookie(response, "token");
 		return ResponseEntity.ok(new TokenResponse(token));
@@ -62,7 +59,7 @@ public class LoginController {
 	@GetMapping("/callbackerror")
 	private ResponseEntity<?> oAuth2CallbackError(HttpServletRequest request, HttpServletResponse response) {
 		CookieUtils.deleteCookie(response, "token");
-		throw new BadRequestException(messages.getMessage("error.oauth.authrefused"));
+		throw new BadRequestException(messages.get("error.oauth.authrefused"));
 	}
 	
 }

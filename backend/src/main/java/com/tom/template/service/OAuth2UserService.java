@@ -40,14 +40,14 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 		String providerName = oAuth2UserRequest.getClientRegistration().getRegistrationId();
 		AuthProvider provider = AuthProvider.valueOf(providerName.toUpperCase());
 		if (StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
-			throw new OAuth2Exception(messages.getMessage("error.oauth.emailnotprovided", providerName)); 
+			throw new OAuth2Exception(messages.get("error.oauth.emailnotprovided", providerName)); 
 		}
 		User user;
 		Optional<User> existingUser = userRep.findByEmail(oAuth2UserInfo.getEmail());
 		if (existingUser.isPresent()) {
 			user = existingUser.get();
 			if (!user.getProvider().equals(provider)) {
-				throw new OAuth2Exception(messages.getMessage("error.oauth.wrongprovider", providerName)); 
+				throw new OAuth2Exception(messages.get("error.oauth.wrongprovider", providerName)); 
 			}
 			log.debug("Login request for {} user: {}", providerName , user.getEmail());
 		} else {

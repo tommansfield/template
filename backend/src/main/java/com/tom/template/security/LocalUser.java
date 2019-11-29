@@ -28,6 +28,7 @@ public class LocalUser implements UserDetails {
 	public static LocalUser create(User user) {
 		LocalUser principal = new LocalUser();
 		principal.id = user.getId();
+		principal.username = String.valueOf(user.getId());
 		principal.password = user.getPassword();
 		principal.authorities = user.getRoles().stream().map(r -> new SimpleGrantedAuthority("ROLE_" + r.getName())).collect(Collectors.toList());
 		return principal;

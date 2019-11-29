@@ -23,7 +23,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.tom.template.dto.SignUpRequest;
 import com.tom.template.security.AuthProvider;
 import com.tom.template.util.TokenType;
 import com.tom.template.util.validation.ValidEmail;
@@ -53,9 +52,6 @@ public class User implements Serializable {
 	@EqualsAndHashCode.Include
 	private String email;
 	
-	@Column(unique = true, length = 25)
-	private String username;
-	
 	@Column(length = 15)
 	private String firstName;
 	
@@ -80,8 +76,8 @@ public class User implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastLogin;
 	
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval= true)
-
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval= true)
+	@JsonIgnore
 	private Set<VerificationToken> tokens;
 
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -91,23 +87,23 @@ public class User implements Serializable {
 	@JsonIgnore
 	private Set<Role> roles;
 	
-	public User(SignUpRequest signup) {
-		this.email = signup.getEmail();
-		this.username = signup.getUsername();
-		this.password = signup.getPassword();
+	public User(String email, String password, String firstName, String lastName) {
+		this.email = email;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.provider = AuthProvider.LOCAL;
 		this.roles = Collections.singleton(Role.USER);
 		this.setTokens(Collections.singleton(new VerificationToken(this, TokenType.VERIFYEMAIL)));
 	}
-	
+
 	public User(AuthProvider provider) {
 		this.provider = provider;
 		this.roles = Collections.singleton(Role.USER);
 		this.setTokens(Collections.singleton(new VerificationToken(this, TokenType.VERIFYEMAIL)));
 	}
 	
-	public User(String username, String email, String password, Set<Role> roles) {
-		this.username = username;
+	public User(String email, String password, Set<Role> roles) {
 		this.email = email;
 		this.password = password;
 		this.provider = AuthProvider.LOCAL;

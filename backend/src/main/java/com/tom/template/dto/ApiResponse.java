@@ -13,6 +13,6 @@ public class ApiResponse {
 	private MessageUtils messages;
 	
 	public ResponseEntity<?> send(HttpStatus status, String message, Object... args) {
-		return ResponseEntity.status(status).body(messages.getMessage(message, args));
+		return ResponseEntity.status(status).body(messages.get(message, args));
 	}
 }

@@ -21,7 +21,7 @@ public class UserController {
 	public User getCurrentUser(@CurrentUser User user) {
 		return user;
 	}
-
+	
 	@GetMapping("/tokens")
 	public Set<VerificationToken> tokens(@CurrentUser User user) {
 		return user.getTokens();

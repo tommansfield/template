@@ -11,7 +11,7 @@ public class MessageUtils {
 
 	Locale locale;
 	
-	public String getMessage(String message, Object... args) {
+	public String get(String message, Object... args) {
 		return messageSource().getMessage(message, args, locale);
 	}
 	

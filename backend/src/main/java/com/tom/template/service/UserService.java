@@ -1,8 +1,6 @@
 package com.tom.template.service;
 
 import java.util.Base64;
-import java.util.Date;
-import java.util.Optional;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +22,6 @@ import com.tom.template.repository.UserRepository;
 import com.tom.template.security.LocalUser;
 import com.tom.template.security.token.TokenProvider;
 import com.tom.template.util.MessageUtils;
-import com.tom.template.util.validation.ValidEmailValidator;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -35,48 +32,52 @@ public class UserService implements UserDetailsService {
 	private final TokenProvider tokenProvider;
 	private final UserRepository userRep;
 	
-	@Autowired @Lazy
+	@Lazy
+	@Autowired 
 	private AuthenticationManager authenticationManager;
 
-	@Autowired @Lazy
+	@Lazy
+	@Autowired 
 	private PasswordEncoder encoder;
 	
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-		boolean isEmail = ValidEmailValidator.isValid(login);
-		Optional<User> user = ValidEmailValidator.isValid(login) ? userRep.findByEmail(login) : userRep.findByUsername(login);
-		String error = isEmail ? "error.login.emailnotfound" : "error.login.usernamenotfound";
-		if (user.isPresent()) {
-			User existingUser = user.get();
-			existingUser.setLastLogin(new Date());
-			existingUser.getTokens().isEmpty();
-			return LocalUser.create(existingUser);
-		} else {
-			throw new UsernameNotFoundException(messages.getMessage(error, login));
-		}
+		User user = userRep.findByEmail(login).orElseThrow(() 
+				-> new UsernameNotFoundException(messages.get("error.login.emailnotfound", login)));
+			return LocalUser.create(user);
 	}
 
 	@Transactional
     public User loadUserById(Long id) {
         User user = userRep.findById(id)
-        		.orElseThrow(() -> new ResourceNotFoundException(messages.getMessage("error.resource.notfound", "user", "id", id)));
+        		.orElseThrow(() -> new ResourceNotFoundException(messages.get("error.resource.notfound", "user", "id", id)));
         return user;
 	}
 
 	@Transactional
-	public User createUser(@Valid SignUpRequest signUpRequest) {
-		signUpRequest.setPassword(encoder.encode(signUpRequest.getPassword()));
-        User user = new User(signUpRequest);
-        return userRep.save(user);
+	public TokenResponse createUser(@Valid SignUpRequest signup) {
+		String[] fullName = generateFullName(signup.getFullName());
+		String firstName = fullName != null ? fullName[0] : signup.getFullName();
+		String lastName = fullName != null ? fullName[1] : null;
+        userRep.save(new User(signup.getEmail(), encoder.encode(signup.getPassword()), firstName, lastName));
+        return createToken(signup.getEmail(), signup.getPassword());
 	}
 	
-	public TokenResponse createToken(String login, String password) {
-		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login, password));
+	public TokenResponse createToken(String email, String password) {
+		
+		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = tokenProvider.createToken(((LocalUser) authentication.getPrincipal()).getId());
         return new TokenResponse(Base64.getEncoder().encodeToString(token.getBytes()));
-
+	}
+	
+	private String[] generateFullName(String name) {
+		if (name != null) {
+			String[] splitName = name.split(" ");
+			if (splitName.length == 2) return splitName;
+		}
+		return null;
 	}
 	
 }

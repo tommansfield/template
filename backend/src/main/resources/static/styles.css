@@ -1,16 +1,25 @@
-.container {
-  height: 100%;
-  position: relative;
-	text-align: center;
+.home {
+  height: 2000px;
+  text-align: center;
+  background-color: whitesmoke;
+  overflow: hidden; 
+  position: fixed;
+  width: 100%;
 }
 
 .welcome {
+  vertical-align: middle;
+  margin:  5em auto;
+  text-align: center;
+}
 
+.welcome img {
+  width: 20%;
+  height: auto;
+  margin: 2em;
+}
 
- margin: 0;
- width: 100%;
-  	position: absolute;
-    top: 50%;
-    //transform: translateY(-50%);
-  	//-ms-transform: translateY(-50%);;
+p {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.2em;
 }

@@ -51,6 +51,7 @@ public class TokenProvider {
 	}
 	
 	public Long getUserIdFromToken(String token) {
+		token = new String(Base64.getDecoder().decode(token));
         Claims claims = Jwts.parser()
                 .setSigningKey(properties.getAuth().getTokenSecret())
                 .parseClaimsJws(token)
@@ -60,6 +61,7 @@ public class TokenProvider {
 	
 	public boolean validateToken(String authToken) {
         try {
+        	authToken = new String(Base64.getDecoder().decode(authToken));
             Jwts.parser().setSigningKey(properties.getAuth().getTokenSecret()).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException ex) {

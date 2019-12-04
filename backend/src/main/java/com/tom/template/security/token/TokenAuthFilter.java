@@ -1,7 +1,6 @@
 package com.tom.template.security.token;
 
 import java.io.IOException;
-import java.util.Base64;
 import java.util.Date;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -35,9 +34,9 @@ public class TokenAuthFilter extends OncePerRequestFilter {
 		try {
 			String jwt = getJwtFromRequest(request);
 			if (jwt != null) {
-				String token = new String(Base64.getDecoder().decode(jwt));
-				if (tokenProvider.validateToken(token)) {
-					Long userId = tokenProvider.getUserIdFromToken(token);
+				
+				if (tokenProvider.validateToken(jwt)) {
+					Long userId = tokenProvider.getUserIdFromToken(jwt);
 					User user = userService.loadUserById(userId);
 					user.setLastLogin(new Date());		
 					userRep.save(user);

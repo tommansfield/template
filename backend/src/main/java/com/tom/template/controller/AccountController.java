@@ -27,7 +27,6 @@ public class AccountController {
 	private final ApiResponse response;
 	private final AccountService accountService;
 
-	
 	@PostMapping("/requestverifyemailtoken")
 	public ResponseEntity<?> createVerificationToken(@CurrentUser User user) {
 		boolean success = accountService.createToken(user, TokenType.VERIFYEMAIL);

@@ -24,11 +24,4 @@ public class MessageUtils {
 	    return messageSource;
 	}
 	
-//	@Bean
-//	public LocalValidatorFactoryBean getValidator() {
-//	    LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
-//	    bean.setValidationMessageSource(messageSource());
-//	    return bean;
-//	}
-	
 }

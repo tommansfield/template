@@ -12,9 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -31,7 +29,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .stream()
                 .map(x -> x.getDefaultMessage())
                 .collect(Collectors.toList());
-        errors.forEach(e -> log.error(e));
         body.put("errors", errors);
         return new ResponseEntity<>(body, headers, status);
     }

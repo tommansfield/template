@@ -18,7 +18,7 @@ public class EmailService {
 
 	public void sendMail(String email, TokenType tokenType) {
 		SimpleMailMessage message = new SimpleMailMessage();
-		message.setTo("thomas.mansfield@capgemini.com");
+		message.setTo(email);
 		message.setSubject("hi");
 		message.setText("test");
 		emailSender.send(message);

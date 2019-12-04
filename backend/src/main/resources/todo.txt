@@ -1,0 +1,30 @@
+localhost:8080/oauth2/authorize/facebook?redirect_uri=/auth/callback
+localhost:8080/oauth2/authorize/google?redirect_uri=/auth/callback
+localhost:8080/oauth2/authorize/github?redirect_uri=/auth/callback
+
+===== Easy =====
+
+Fix html webpage for 500 errors and 400 (no param)
+Finish  API front (welcome/404) - get images for logo and 'oops'
+Replace whitelabel error.
+Finish mail
+
+===== Medium =====
+
+Fix pass validation
+Add swagger
+Add dev/prod env - find way to inject sample data. Enviromental variables?
+Create user-admin methods
+Create and maintain functionality list - Start with controllers/oauth
+
+===== Hard =====
+
+Add friend requests - solve lazy init
+Create tests - based on controller method - use functionality list.
+Explore metrics - simplicity
+
+===== Front =====
+
+Add boostrap to project
+Find skip tests solution
+Create login page.

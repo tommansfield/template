@@ -17,4 +17,5 @@ public class RestAuthEntryPoint implements AuthenticationEntryPoint {
 	    log.error("Unsuccessful login attempt: {}", e.getMessage());
 	    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getLocalizedMessage());
 	}
+	
 }

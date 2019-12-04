@@ -34,7 +34,6 @@ public class TokenAuthFilter extends OncePerRequestFilter {
 		try {
 			String jwt = getJwtFromRequest(request);
 			if (jwt != null) {
-				
 				if (tokenProvider.validateToken(jwt)) {
 					Long userId = tokenProvider.getUserIdFromToken(jwt);
 					User user = userService.loadUserById(userId);

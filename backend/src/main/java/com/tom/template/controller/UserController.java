@@ -9,8 +9,7 @@ import com.tom.template.entity.VerificationToken;
 import com.tom.template.security.CurrentUser;
 
 @RestController
-
-@RequestMapping("/user")
+@RequestMapping("${app.version}/user")
 public class UserController {
 
 	@GetMapping("/me")

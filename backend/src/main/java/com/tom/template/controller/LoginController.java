@@ -16,7 +16,6 @@ import com.tom.template.dto.SignUpRequest;
 import com.tom.template.dto.TokenResponse;
 import com.tom.template.entity.User;
 import com.tom.template.exception.AuthRequestException;
-import com.tom.template.exception.BadRequestException;
 import com.tom.template.security.token.TokenProvider;
 import com.tom.template.service.UserService;
 import com.tom.template.util.CookieUtils;
@@ -63,7 +62,7 @@ public class LoginController {
 	@GetMapping("/callbackerror")
 	private ResponseEntity<?> oAuth2CallbackError(HttpServletRequest request, HttpServletResponse response) {
 		CookieUtils.deleteCookie(response, "token");
-		throw new BadRequestException(messages.get("error.oauth.authrefused"));
+		throw new AuthRequestException(messages.get("error.oauth.authrefused"));
 	}
 	
 }

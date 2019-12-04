@@ -31,6 +31,7 @@ public class UserService implements UserDetailsService {
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+		System.out.println("here");
 		User user = userRep.findByEmail(login).orElseThrow(() 
 				-> new UsernameNotFoundException(messages.get("error.login.emailnotfound", login)));
 			return LocalUser.create(user);

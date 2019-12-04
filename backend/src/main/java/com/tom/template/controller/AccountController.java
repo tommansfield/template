@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/account")
+@RequestMapping("${app.version}/account")
 public class AccountController {
 	
 	private final ApiResponse response;

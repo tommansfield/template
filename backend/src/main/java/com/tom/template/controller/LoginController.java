@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tom.template.dto.LoginRequest;
 import com.tom.template.dto.SignUpRequest;
 import com.tom.template.dto.TokenResponse;
+import com.tom.template.entity.User;
 import com.tom.template.exception.AuthRequestException;
 import com.tom.template.exception.BadRequestException;
+import com.tom.template.security.token.TokenProvider;
 import com.tom.template.service.UserService;
 import com.tom.template.util.CookieUtils;
 import com.tom.template.util.MessageUtils;
@@ -30,18 +32,20 @@ public class LoginController {
 
 	private final MessageUtils messages;
 	private final UserService userService;
+	private final TokenProvider tokenProvider;
 
 	@PostMapping("/login")
 	public ResponseEntity<TokenResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 		log.debug("Login attempt for local user: {}", loginRequest.getEmail());
-		TokenResponse token = userService.createToken(loginRequest.getEmail(), loginRequest.getPassword());
+		TokenResponse token = tokenProvider.createToken(loginRequest.getEmail(), loginRequest.getPassword());
 		return ResponseEntity.ok(token);
 	}
 
 	@PostMapping("/signup")
 	public ResponseEntity<TokenResponse> registerUser(@Valid @RequestBody SignUpRequest signup) throws InterruptedException {
-		TokenResponse token = userService.createUser(signup);
-		log.debug("Registering new local user account for: {}", signup.getEmail());
+		User user = userService.createUser(signup);
+		log.debug("Registering new local user account for: {}", user.getEmail());
+		TokenResponse token = tokenProvider.createToken(signup.getEmail(), signup.getPassword());
 		return ResponseEntity.ok(token);
 	}
 

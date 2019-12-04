@@ -1,8 +1,17 @@
 package com.tom.template.security.token;
 
+import java.util.Base64;
 import java.util.Date;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import com.tom.template.config.Properties;
+import com.tom.template.dto.TokenResponse;
+import com.tom.template.security.LocalUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -20,6 +29,10 @@ public class TokenProvider {
 	
 	private final Properties properties;
 	
+	@Lazy
+	@Autowired 
+	private AuthenticationManager authenticationManager;
+	
 	public String createToken(Long id) {
 		Date expiryDate = new Date(new Date().getTime() + properties.getAuth().getTokenValidityMSecs());
 		return Jwts.builder()
@@ -29,6 +42,13 @@ public class TokenProvider {
                 .signWith(SignatureAlgorithm.HS512, properties.getAuth().getTokenSecret())
                 .compact();
     }		
+	
+	public TokenResponse createToken(String email, String password) {
+		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = createToken(((LocalUser) authentication.getPrincipal()).getId());
+        return new TokenResponse(Base64.getEncoder().encodeToString(token.getBytes()));
+	}
 	
 	public Long getUserIdFromToken(String token) {
         Claims claims = Jwts.parser()

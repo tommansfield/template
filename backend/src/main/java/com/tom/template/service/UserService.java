@@ -1,26 +1,19 @@
 package com.tom.template.service;
 
-import java.util.Base64;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.tom.template.dto.SignUpRequest;
-import com.tom.template.dto.TokenResponse;
 import com.tom.template.entity.User;
 import com.tom.template.exception.ResourceNotFoundException;
 import com.tom.template.repository.UserRepository;
 import com.tom.template.security.LocalUser;
-import com.tom.template.security.token.TokenProvider;
 import com.tom.template.util.MessageUtils;
 import lombok.RequiredArgsConstructor;
 
@@ -29,13 +22,8 @@ import lombok.RequiredArgsConstructor;
 public class UserService implements UserDetailsService {
 
 	private final MessageUtils messages;
-	private final TokenProvider tokenProvider;
 	private final UserRepository userRep;
 	
-	@Lazy
-	@Autowired 
-	private AuthenticationManager authenticationManager;
-
 	@Lazy
 	@Autowired 
 	private PasswordEncoder encoder;
@@ -56,20 +44,11 @@ public class UserService implements UserDetailsService {
 	}
 
 	@Transactional
-	public TokenResponse createUser(@Valid SignUpRequest signup) {
+	public User createUser(@Valid SignUpRequest signup) {
 		String[] fullName = generateFullName(signup.getFullName());
 		String firstName = fullName != null ? fullName[0] : signup.getFullName();
 		String lastName = fullName != null ? fullName[1] : null;
-        userRep.save(new User(signup.getEmail(), encoder.encode(signup.getPassword()), firstName, lastName));
-        return createToken(signup.getEmail(), signup.getPassword());
-	}
-	
-	public TokenResponse createToken(String email, String password) {
-		
-		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = tokenProvider.createToken(((LocalUser) authentication.getPrincipal()).getId());
-        return new TokenResponse(Base64.getEncoder().encodeToString(token.getBytes()));
+        return userRep.save(new User(signup.getEmail(), encoder.encode(signup.getPassword()), firstName, lastName));
 	}
 	
 	private String[] generateFullName(String name) {

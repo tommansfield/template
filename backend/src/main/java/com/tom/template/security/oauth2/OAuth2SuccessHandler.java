@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Base64;
 import java.util.Optional;
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,13 +30,12 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final OAuth2RequestRepository oAuth2RequestRepository;
     
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
     	String targetUrl = determineTargetUrl(request, response); 
     	clearAuthenticationAttributes(request, response);
     	TokenResponse token = tokenProvider.createToken(((OAuthUser) authentication.getPrincipal()).getId());
-    	String encodedToken = Base64.getEncoder().encodeToString(token.getAccessToken().getBytes());
-    	CookieUtils.addCookie(response, "token", encodedToken, 30);
-        getRedirectStrategy().sendRedirect(request, response, targetUrl);
+    	response.setHeader("token", Base64.getEncoder().encodeToString(token.getAccessToken().getBytes()));
+    	request.getRequestDispatcher(targetUrl).forward(request, response);
     }
 	
     @Override

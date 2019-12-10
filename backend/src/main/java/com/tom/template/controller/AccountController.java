@@ -28,13 +28,13 @@ public class AccountController {
 	
 	@PostMapping("/requestverifyemailtoken")
 	public ResponseEntity<ApiResponse> createVerificationToken(@CurrentUser User user) {
-		accountService.createToken(user, TokenType.VERIFYEMAIL);
+		accountService.createVerificationToken(user, TokenType.VERIFYEMAIL);
 		return new ApiResponse(HttpStatus.CREATED, messages.get("user.token.sent")).send();
 	} 
 	
 	@PostMapping("/requestresetpasswordtoken")
 	public ResponseEntity<ApiResponse> createdResetPasswordToken(@CurrentUser User user) {
-		accountService.createToken(user, TokenType.RESETPASSWORD);
+		accountService.createVerificationToken(user, TokenType.RESETPASSWORD);
 		return new ApiResponse(HttpStatus.CREATED, messages.get("user.token.sent")).send();
 	}
 	

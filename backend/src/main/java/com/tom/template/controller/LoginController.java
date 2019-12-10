@@ -1,10 +1,11 @@
 package com.tom.template.controller;
 
-import javax.servlet.http.Cookie;
+import java.util.Base64;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,11 +15,8 @@ import com.tom.template.dto.LoginRequest;
 import com.tom.template.dto.SignUpRequest;
 import com.tom.template.dto.TokenResponse;
 import com.tom.template.entity.User;
-import com.tom.template.exception.AuthRequestException;
 import com.tom.template.security.token.TokenProvider;
 import com.tom.template.service.UserService;
-import com.tom.template.util.CookieUtils;
-import com.tom.template.util.MessageUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
  
@@ -28,11 +26,10 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class LoginController {
 
-	private final MessageUtils messages;
 	private final UserService userService;
 	private final TokenProvider tokenProvider;
 
-	@PostMapping("/obtainaccesstoken")
+	@PostMapping("/login")
 	public ResponseEntity<TokenResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
 		log.debug("Login attempt for local user: {}", loginRequest.getEmail());
 		TokenResponse token = tokenProvider.createToken(loginRequest.getEmail(), loginRequest.getPassword());
@@ -47,12 +44,12 @@ public class LoginController {
 		return ResponseEntity.ok(token);
 	}
 
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping("/callback")
 	private ResponseEntity<TokenResponse> oAuth2TokenCallback(HttpServletRequest request, HttpServletResponse response) {
-		String token = CookieUtils.getCookie(request, "token").map(Cookie::getValue)
-				.orElseThrow(() ->  new AuthRequestException(messages.get("error.oauth.authrefused")));
-		CookieUtils.deleteCookie(response, "token");
-		return ResponseEntity.ok(new TokenResponse(token));
+		String accessToken = new String(Base64.getDecoder().decode(response.getHeader("token")));
+		TokenResponse token = new TokenResponse(accessToken);
+		return ResponseEntity.ok(token);
 	}
 	
 }

@@ -28,7 +28,7 @@ public class AccountService {
 
 	
 	@Transactional
-	public void createToken(User user, TokenType tokenType) {
+	public void createVerificationToken(User user, TokenType tokenType) {
 		VerificationToken token = tokenRep.findByUserAndTokenType(user, tokenType).orElse(new VerificationToken(user, tokenType));
 		tokenRep.save(token);
 		email.sendMail(user.getEmail(), tokenType);
@@ -73,7 +73,7 @@ public class AccountService {
 	public void changeEmail(User user, ChangeEmail changeEmail) {
 		user.setEmail(changeEmail.getEmail());
 		user.removeRole(Role.VERIFIED_USER);
-		createToken(user, TokenType.VERIFYEMAIL);
+		createVerificationToken(user, TokenType.VERIFYEMAIL);
 	}
 	
 }

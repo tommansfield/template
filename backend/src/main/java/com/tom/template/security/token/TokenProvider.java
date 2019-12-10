@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import com.tom.template.config.Properties;
 import com.tom.template.dto.TokenResponse;
@@ -33,21 +32,20 @@ public class TokenProvider {
 	@Autowired 
 	private AuthenticationManager authenticationManager;
 	
-	public String createToken(Long id) {
+	public TokenResponse createToken(Long id) {
 		Date expiryDate = new Date(new Date().getTime() + properties.getAuth().getTokenValidityMSecs());
-		return Jwts.builder()
+		String token = Jwts.builder()
                 .setSubject(String.valueOf(id))
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, properties.getAuth().getTokenSecret())
                 .compact();
+		return new TokenResponse(Base64.getEncoder().encodeToString(token.getBytes()));	
     }		
 	
 	public TokenResponse createToken(String email, String password) {
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = createToken(((LocalUser) authentication.getPrincipal()).getId());
-        return new TokenResponse(Base64.getEncoder().encodeToString(token.getBytes()));
+        return createToken(((LocalUser) authentication.getPrincipal()).getId());
 	}
 	
 	public Long getUserIdFromToken(String token) {

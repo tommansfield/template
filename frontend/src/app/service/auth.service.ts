@@ -8,24 +8,24 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  obtainAccessToken(login: LoginRequest) {
-    const params = new URLSearchParams();
-    params.append('email', login.email);
-    params.append('password', login.password);
-    params.append('grant_type','password');
-    params.append('client_id','fooClientIdPassword');
-    let headers =
-      new Headers({'Content-type': 'application/json',
-      'Authorization': 'Basic '+btoa("fooClientIdPassword:secret")});
-    let options = new RequestOptions({ headers: headers });
+  // obtainAccessToken(login: LoginRequest) {
+  //   const params = new URLSearchParams();
+  //   params.append('email', login.email);
+  //   params.append('password', login.password);
+  //   params.append('grant_type','password');
+  //   params.append('client_id','fooClientIdPassword');
+  //   let headers =
+  //     new Headers({'Content-type': 'application/json',
+  //     'Authorization': 'Basic '+btoa("fooClientIdPassword:secret")});
+  //   let options = new RequestOptions({ headers: headers });
 
-    this._http.post('http://localhost:8081/spring-security-oauth-server/oauth/token',
-      params.toString(), options)
-      .map(res => res.json())
-      .subscribe(
-        data => this.saveToken(data),
-        err => alert('Invalid Credentials'));
-  }
+  //   this._http.post('http://localhost:8081/spring-security-oauth-server/oauth/token',
+  //     params.toString(), options)
+  //     .map(res => res.json())
+  //     .subscribe(
+  //       data => this.saveToken(data),
+  //       err => alert('Invalid Credentials'));
+  // }
 
   // saveToken(token){
   //   var expireDate = new Date().getTime() + (1000 * token.expires_in);

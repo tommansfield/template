@@ -1,6 +1,5 @@
 package com.tom.template.controller;
 
-import java.io.IOException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,7 +33,7 @@ public class LoginController {
 	private final TokenProvider tokenProvider;
 
 	@PostMapping("/login")
-	public ResponseEntity<TokenResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+	public ResponseEntity<TokenResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
 		log.debug("Login attempt for local user: {}", loginRequest.getEmail());
 		TokenResponse token = tokenProvider.createToken(loginRequest.getEmail(), loginRequest.getPassword());
 		return ResponseEntity.ok(token);
@@ -44,17 +43,14 @@ public class LoginController {
 	public ResponseEntity<TokenResponse> registerUser(@Valid @RequestBody SignUpRequest signup) throws InterruptedException {
 		User user = userService.createUser(signup);
 		log.debug("Registering new local user account for: {}", user.getEmail());
-		TokenResponse token = tokenProvider.createToken(signup.getEmail(), signup.getPassword());
+		TokenResponse token = tokenProvider.createToken(user.getId());
 		return ResponseEntity.ok(token);
 	}
 
 	@GetMapping("/callback")
-	private ResponseEntity<TokenResponse> oAuth2TokenCallback(HttpServletRequest request, HttpServletResponse response)
-			throws IOException {
-		String token = CookieUtils.getCookie(request, "token").map(Cookie::getValue).orElse(null);
-		if (token == null) { 
-			throw new AuthRequestException(messages.get("error.oauth.authrefused")); 
-		}
+	private ResponseEntity<TokenResponse> oAuth2TokenCallback(HttpServletRequest request, HttpServletResponse response) {
+		String token = CookieUtils.getCookie(request, "token").map(Cookie::getValue)
+				.orElseThrow(() ->  new AuthRequestException(messages.get("error.oauth.authrefused")));
 		CookieUtils.deleteCookie(response, "token");
 		return ResponseEntity.ok(new TokenResponse(token));
 	}

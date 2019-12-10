@@ -1,7 +1,6 @@
 package com.tom.template.security.token;
 
 import java.io.IOException;
-import java.util.Date;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import com.tom.template.entity.User;
-import com.tom.template.repository.UserRepository;
 import com.tom.template.security.LocalUser;
 import com.tom.template.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +24,6 @@ public class TokenAuthFilter extends OncePerRequestFilter {
 
 	private final UserService userService;
 	private final TokenProvider tokenProvider;
-	private final UserRepository userRep;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -37,11 +34,8 @@ public class TokenAuthFilter extends OncePerRequestFilter {
 				if (tokenProvider.validateToken(jwt)) {
 					Long userId = tokenProvider.getUserIdFromToken(jwt);
 					User user = userService.loadUserById(userId);
-					user.setLastLogin(new Date());		
-					userRep.save(user);
 					LocalUser principal = LocalUser.create(user);
-					UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user,
-							null, principal.getAuthorities());
+					UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, principal.getAuthorities());
 					authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 					SecurityContextHolder.getContext().setAuthentication(authentication);
 				}

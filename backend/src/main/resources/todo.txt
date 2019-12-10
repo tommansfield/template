@@ -1,6 +1,6 @@
-localhost:8080/oauth2/authorize/facebook?redirect_uri=/auth/callback
-localhost:8080/oauth2/authorize/google?redirect_uri=/auth/callback
-localhost:8080/oauth2/authorize/github?redirect_uri=/auth/callback
+localhost:8443/oauth2/authorize/facebook?redirect_uri=/auth/callback
+localhost:8443/oauth2/authorize/google?redirect_uri=/auth/callback
+localhost:8443/oauth2/authorize/github?redirect_uri=/auth/callback
 
 ===== Easy =====
 
@@ -28,3 +28,7 @@ Explore metrics - simplicity
 Add boostrap to project
 Find skip tests solution
 Create login page.
+
+
+http://82.237.94.50:8080/
+

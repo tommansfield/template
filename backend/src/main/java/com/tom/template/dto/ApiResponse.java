@@ -1,18 +1,26 @@
 package com.tom.template.dto;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Date;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
-import com.tom.template.util.MessageUtils;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
+import lombok.Setter;
 
-@Component
+@Getter @Setter
 public class ApiResponse {
 	
-	@Autowired
-	private MessageUtils messages;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
+    private Date timeStamp = new Date();
+    private int status;
+    private String message;
 	
-	public ResponseEntity<?> send(HttpStatus status, String message, Object... args) {
-		return ResponseEntity.status(status).body(messages.get(message, args));
-	}
+    public ApiResponse(HttpStatus status, String message, Object... args) {
+    	this.status = status.value();
+    	this.message = message;
+    }
+    
+    public ResponseEntity<ApiResponse> send() {
+    	return ResponseEntity.status(status).body(this);
+    }
 }

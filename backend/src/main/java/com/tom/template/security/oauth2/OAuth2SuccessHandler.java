@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import com.tom.template.config.Properties;
+import com.tom.template.dto.TokenResponse;
 import com.tom.template.exception.BadRequestException;
 import com.tom.template.security.OAuthUser;
 import com.tom.template.security.token.TokenProvider;
@@ -31,8 +32,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
     	String targetUrl = determineTargetUrl(request, response); 
     	clearAuthenticationAttributes(request, response);
-    	String token = tokenProvider.createToken(((OAuthUser) authentication.getPrincipal()).getId());
-    	String encodedToken = Base64.getEncoder().encodeToString(token.getBytes());
+    	TokenResponse token = tokenProvider.createToken(((OAuthUser) authentication.getPrincipal()).getId());
+    	String encodedToken = Base64.getEncoder().encodeToString(token.getAccessToken().getBytes());
     	CookieUtils.addCookie(response, "token", encodedToken, 30);
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }

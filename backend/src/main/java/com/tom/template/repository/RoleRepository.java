@@ -7,4 +7,5 @@ import com.tom.template.entity.Role;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
 	
+	
 }

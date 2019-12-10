@@ -1,5 +1,6 @@
 package com.tom.template.service;
 
+import java.util.Date;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,6 @@ public class UserService implements UserDetailsService {
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-		System.out.println("here");
 		User user = userRep.findByEmail(login).orElseThrow(() 
 				-> new UsernameNotFoundException(messages.get("error.login.emailnotfound", login)));
 			return LocalUser.create(user);
@@ -41,7 +41,9 @@ public class UserService implements UserDetailsService {
     public User loadUserById(Long id) {
         User user = userRep.findById(id)
         		.orElseThrow(() -> new ResourceNotFoundException(messages.get("error.resource.notfound", "user", "id", id)));
-        return user;
+        user.getRoles().size();
+		user.setLastLogin(new Date());
+		return userRep.save(user);
 	}
 
 	@Transactional

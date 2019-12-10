@@ -12,8 +12,4 @@ public class OAuth2Exception extends RuntimeException {
 		super(message);
 	}
 	
-	public OAuth2Exception(String message, Throwable throwable) {
-		super(message, throwable);
-	}
-	
 }

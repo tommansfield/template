@@ -1,5 +1,6 @@
 package com.tom.template.exception;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -10,8 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import com.tom.template.dto.CustomErrorResponse;
 
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -34,6 +37,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         	System.out.println(e);
         });
         return new ResponseEntity<>(body, headers, status);
+    }
+    
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<CustomErrorResponse> customHandleNotFound(Exception ex, WebRequest request) {
+        CustomErrorResponse errors = new CustomErrorResponse();
+        errors.setTimestamp(LocalDateTime.now());
+        errors.setError(ex.getMessage());
+        errors.setStatus(HttpStatus.NOT_FOUND.value());
+        return new ResponseEntity<>(errors, HttpStatus.NOT_FOUND);
     }
     
 }

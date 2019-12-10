@@ -1,11 +1,9 @@
 package com.tom.template.controller;
 
-import java.util.Base64;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,12 +42,10 @@ public class LoginController {
 		return ResponseEntity.ok(token);
 	}
 
-	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping("/callback")
 	private ResponseEntity<TokenResponse> oAuth2TokenCallback(HttpServletRequest request, HttpServletResponse response) {
-		String accessToken = new String(Base64.getDecoder().decode(response.getHeader("token")));
-		TokenResponse token = new TokenResponse(accessToken);
+		TokenResponse token = userService.processOAuth2User(response);
 		return ResponseEntity.ok(token);
 	}
-	
+
 }

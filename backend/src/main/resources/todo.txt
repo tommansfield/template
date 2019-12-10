@@ -4,7 +4,6 @@ localhost:8443/oauth2/authorize/github?redirect_uri=/auth/callback
 
 ===== Easy =====
 
-Fix html webpage for 500 errors and 400 (no param)
 Finish  API front (welcome/404) - get images for logo and 'oops'
 Replace whitelabel error.
 Finish mail

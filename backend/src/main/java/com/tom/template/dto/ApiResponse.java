@@ -1,6 +1,6 @@
 package com.tom.template.dto;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -11,7 +11,7 @@ import lombok.Setter;
 public class ApiResponse {
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
-    private Date timeStamp = new Date();
+    private LocalDateTime timeStamp = LocalDateTime.now();
     private int status;
     private String message;
 	

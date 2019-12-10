@@ -12,8 +12,4 @@ public class AuthRequestException extends RuntimeException {
         super(message);
     }
 
-    public AuthRequestException(String message, Throwable cause) {
-        super(message, cause);
-    }
-    
 }

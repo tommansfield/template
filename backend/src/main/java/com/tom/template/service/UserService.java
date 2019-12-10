@@ -1,6 +1,8 @@
 package com.tom.template.service;
 
+import java.util.Base64;
 import java.util.Date;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.tom.template.dto.SignUpRequest;
+import com.tom.template.dto.TokenResponse;
 import com.tom.template.entity.User;
+import com.tom.template.exception.AuthRequestException;
 import com.tom.template.exception.ResourceNotFoundException;
 import com.tom.template.repository.UserRepository;
 import com.tom.template.security.LocalUser;
@@ -60,6 +64,15 @@ public class UserService implements UserDetailsService {
 			if (splitName.length == 2) return splitName;
 		}
 		return null;
+	}
+	
+	public TokenResponse processOAuth2User(HttpServletResponse response) {
+		String header = response.getHeader("token");
+		if (header == null) {
+			throw new AuthRequestException(messages.get("error.oauth.authrefused"));
+		}
+		String accessToken = new String(Base64.getDecoder().decode(header));	
+		return new TokenResponse(accessToken);
 	}
 	
 }

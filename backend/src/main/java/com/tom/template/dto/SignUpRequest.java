@@ -2,6 +2,7 @@ package com.tom.template.dto;
 
 import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import com.tom.template.util.validation.EmailNotInUse;
 import com.tom.template.util.validation.Password;
 import com.tom.template.util.validation.PasswordMatches;
@@ -21,6 +22,7 @@ public class SignUpRequest implements Password {
 	private String fullName;
 	
 	@NotNull(message = "No password provided.")
+	@Size(min = 8, max = 50)
 	private String password;
 	
 	@NotNull(message = "No matching password provided.")

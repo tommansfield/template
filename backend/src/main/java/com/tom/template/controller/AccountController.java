@@ -68,6 +68,4 @@ public class AccountController {
 		return new ApiResponse(HttpStatus.OK, messages.get("user.email.changed")).send();
 	}
 	
-	
-	
 }

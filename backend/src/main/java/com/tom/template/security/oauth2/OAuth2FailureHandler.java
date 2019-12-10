@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.UriComponentsBuilder;
+import com.tom.template.util.MessageUtils;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -15,12 +15,12 @@ import lombok.RequiredArgsConstructor;
 public class OAuth2FailureHandler extends SimpleUrlAuthenticationFailureHandler {
 	
 	private final OAuth2RequestRepository oAuth2RequestRepository;
+	private final MessageUtils messages;
 	
 	@Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        String targetUrl = UriComponentsBuilder.fromUriString("/auth/callbackerror").queryParam("error", exception.getLocalizedMessage()).build().toUriString();
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
         oAuth2RequestRepository.removeAuthRequestCookies(request, response);
-        getRedirectStrategy().sendRedirect(request, response, targetUrl);
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, messages.get("error.oauth.authrefused"));
     }
 	
 }

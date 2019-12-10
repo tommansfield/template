@@ -32,7 +32,7 @@ public class LoginController {
 	private final UserService userService;
 	private final TokenProvider tokenProvider;
 
-	@PostMapping("/login")
+	@PostMapping("/obtainaccesstoken")
 	public ResponseEntity<TokenResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
 		log.debug("Login attempt for local user: {}", loginRequest.getEmail());
 		TokenResponse token = tokenProvider.createToken(loginRequest.getEmail(), loginRequest.getPassword());
@@ -53,12 +53,6 @@ public class LoginController {
 				.orElseThrow(() ->  new AuthRequestException(messages.get("error.oauth.authrefused")));
 		CookieUtils.deleteCookie(response, "token");
 		return ResponseEntity.ok(new TokenResponse(token));
-	}
-
-	@GetMapping("/callbackerror")
-	private ResponseEntity<?> oAuth2CallbackError(HttpServletRequest request, HttpServletResponse response) {
-		CookieUtils.deleteCookie(response, "token");
-		throw new AuthRequestException(messages.get("error.oauth.authrefused"));
 	}
 	
 }

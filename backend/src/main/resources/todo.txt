@@ -7,27 +7,15 @@ localhost:8443/oauth2/authorize/github?redirect_uri=/auth/callback
 Finish  API front (welcome/404) - get images for logo and 'oops'
 Replace whitelabel error.
 Finish mail
-
-===== Medium =====
-
-Fix pass validation
 Add swagger
 Add dev/prod env - find way to inject sample data. Enviromental variables?
 Create user-admin methods
 Create and maintain functionality list - Start with controllers/oauth
-
-===== Hard =====
-
 Add friend requests - solve lazy init
 Create tests - based on controller method - use functionality list.
 Explore metrics - simplicity
-
-===== Front =====
-
-Add boostrap to project
-Find skip tests solution
+Fix SSL
 Create login page.
 
 
 http://82.237.94.50:8080/
-

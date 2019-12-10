@@ -44,7 +44,7 @@ public class LoginController {
 
 	@GetMapping("/callback")
 	private ResponseEntity<TokenResponse> oAuth2TokenCallback(HttpServletRequest request, HttpServletResponse response) {
-		TokenResponse token = userService.processOAuth2User(response);
+		TokenResponse token = userService.processToken(response);
 		return ResponseEntity.ok(token);
 	}
 

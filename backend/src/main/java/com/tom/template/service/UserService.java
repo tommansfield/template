@@ -58,21 +58,21 @@ public class UserService implements UserDetailsService {
         return userRep.save(new User(signup.getEmail(), encoder.encode(signup.getPassword()), firstName, lastName));
 	}
 	
-	private String[] generateFullName(String name) {
-		if (name != null) {
-			String[] splitName = name.split(" ");
-			if (splitName.length == 2) return splitName;
-		}
-		return null;
-	}
-	
-	public TokenResponse processOAuth2User(HttpServletResponse response) {
+	public TokenResponse processToken(HttpServletResponse response) {
 		String header = response.getHeader("token");
 		if (header == null) {
 			throw new AuthRequestException(messages.get("error.oauth.authrefused"));
 		}
 		String accessToken = new String(Base64.getDecoder().decode(header));	
 		return new TokenResponse(accessToken);
+	}
+	
+	private String[] generateFullName(String name) {
+		if (name != null) {
+			String[] splitName = name.split(" ");
+			if (splitName.length == 2) return splitName;
+		}
+		return null;
 	}
 	
 }

@@ -11,6 +11,8 @@ import lombok.Setter;
 public class Properties {
 
 	private String name;
+	private String description;
+	private String version;
 	private String host;
 	private String swaggerUrl;
 	private final Auth auth = new Auth();

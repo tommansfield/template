@@ -19,7 +19,7 @@ public class AuthEntryPoint implements AuthenticationEntryPoint {
 			request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, 401);
 			request.getRequestDispatcher("/error").forward(request, response);
 		} else {
-			response.sendRedirect(("/error/autherror"));
+			response.sendRedirect("/error/autherror");
 		}
 	}
 

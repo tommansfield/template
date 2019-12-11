@@ -16,54 +16,59 @@ import com.tom.template.security.CurrentUser;
 import com.tom.template.service.AccountService;
 import com.tom.template.util.MessageUtils;
 import com.tom.template.util.TokenType;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("${app.version}/account")
+@RequestMapping("api/${app.version}/account")
+@Api(value="Account services")
 public class AccountController {
 	
 	private final AccountService accountService;
 	private final MessageUtils messages;
 	
+	@ApiOperation(value = "Send an email verification token", response = ApiResponse.class)
 	@PostMapping("/requestverifyemailtoken")
-	public ResponseEntity<ApiResponse> createVerificationToken(@CurrentUser User user) {
+	public ResponseEntity<ApiResponse> createVerificationToken(@ApiIgnore @CurrentUser User user) {
 		accountService.createVerificationToken(user, TokenType.VERIFYEMAIL);
 		return new ApiResponse(HttpStatus.CREATED, messages.get("user.token.sent")).send();
 	} 
 	
 	@PostMapping("/requestresetpasswordtoken")
-	public ResponseEntity<ApiResponse> createdResetPasswordToken(@CurrentUser User user) {
+	public ResponseEntity<ApiResponse> createdResetPasswordToken(@ApiIgnore @CurrentUser User user) {
 		accountService.createVerificationToken(user, TokenType.RESETPASSWORD);
 		return new ApiResponse(HttpStatus.CREATED, messages.get("user.token.sent")).send();
 	}
 	
 	@PostMapping("/addpassword")
-	public ResponseEntity<ApiResponse> addPassword(@CurrentUser User user, @Valid @RequestBody ChangePassword changePass) {
+	public ResponseEntity<ApiResponse> addPassword(@ApiIgnore @CurrentUser User user, @Valid @RequestBody ChangePassword changePass) {
 		accountService.changePassword(user, changePass);
 		return new ApiResponse(HttpStatus.OK, messages.get("user.password.added")).send();
 	}
 	
 	@PostMapping("/resetpassword")
-	public ResponseEntity<ApiResponse> resetPassword(@CurrentUser User user, @RequestParam(required = true) String token) {
+	public ResponseEntity<ApiResponse> resetPassword(@ApiIgnore @CurrentUser User user, @RequestParam(required = true) String token) {
 		accountService.resetPassword(user, token);
 		return new ApiResponse(HttpStatus.OK, messages.get("user.password.reset")).send();
 	}
 	
 	@PostMapping("/changepassword")
-	public ResponseEntity<ApiResponse> changePassword(@CurrentUser User user, @Valid @RequestBody ChangePassword changePass) {
+	public ResponseEntity<ApiResponse> changePassword(@ApiIgnore @CurrentUser User user, @Valid @RequestBody ChangePassword changePass) {
 		accountService.changePassword(user, changePass);
 		return new ApiResponse(HttpStatus.OK, messages.get("user.password.changed")).send();
 	}
 	
 	@PostMapping("/verifyemail")
-	public ResponseEntity<ApiResponse> verifyEmail(@CurrentUser User user, @RequestParam(required = true) String token) {
+	public ResponseEntity<ApiResponse> verifyEmail(@ApiIgnore @CurrentUser User user, @RequestParam(required = true) String token) {
 		accountService.verifyEmail(user, token);
 		return new ApiResponse(HttpStatus.OK, messages.get("user.email.verified")).send();
 	}
 	
 	@PostMapping("/changeemail")
-	public ResponseEntity<ApiResponse> changeEmail(@CurrentUser User user, @Valid @RequestBody ChangeEmail changeEmail) {
+	public ResponseEntity<ApiResponse> changeEmail(@ApiIgnore @CurrentUser User user, @Valid @RequestBody ChangeEmail changeEmail) {
 		accountService.changeEmail(user, changeEmail);
 		return new ApiResponse(HttpStatus.OK, messages.get("user.email.changed")).send();
 	}

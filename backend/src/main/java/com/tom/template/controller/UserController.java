@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.tom.template.entity.User;
+import com.tom.template.exception.ResourceNotFoundException;
 import com.tom.template.security.CurrentUser;
 
 @RestController
@@ -14,5 +15,5 @@ public class UserController {
 	public User getCurrentUser(@CurrentUser User user) {
 		return user;
 	}
-
+	
 }

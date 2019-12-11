@@ -10,8 +10,10 @@ import com.tom.template.config.Properties;
 import com.tom.template.exception.AuthRequestException;
 import com.tom.template.util.MessageUtils;
 import lombok.RequiredArgsConstructor;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Controller
+@ApiIgnore
 @RequiredArgsConstructor
 public class CustomErrorController implements ErrorController {
 

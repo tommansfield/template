@@ -6,9 +6,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.tom.template.config.Properties;
 import com.tom.template.util.MessageUtils;
 import lombok.RequiredArgsConstructor;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Controller
 @RequiredArgsConstructor
+@ApiIgnore
 public class IndexController {
 	
 	private final Properties properties;

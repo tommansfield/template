@@ -4,14 +4,12 @@ localhost:8443/oauth2/authorize/github?redirect_uri=/auth/callback
 
 ===== Easy =====
 
-Finish mail
-Add swagger
-Add dev/prod env - find way to inject sample data. Enviromental variables?
-Create user-admin methods
-Add friend requests 
-Explore metrics - simplicity
-Fix SSL
+Add entity information and auth to swagger
 Create login page.
-
+Create user-admin methods
+Finish mail
+Add dev/prod env - find way to inject sample data. Enviromental variables?
+Fix SSL
+Explore metrics - simplicity
 
 http://82.237.94.50:8080/

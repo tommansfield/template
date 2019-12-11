@@ -4,12 +4,17 @@ localhost:8443/oauth2/authorize/github?redirect_uri=/auth/callback
 
 ===== Easy =====
 
-Add entity information and auth to swagger
+Add path to custom error
+Check for redundant messages
+Add entity information and auth to swagger & return types
+Find shortcut for swagger return types.
+Research 'select a spec' for swagger
 Create login page.
 Create user-admin methods
 Finish mail
-Add dev/prod env - find way to inject sample data. Enviromental variables?
+Add dev/prod env - find way to inject sample data. Environmental variables?
 Fix SSL
+Re-git with dummy passwords
 Explore metrics - simplicity
-
+Microservice launching ?
 http://82.237.94.50:8080/

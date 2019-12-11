@@ -23,7 +23,7 @@ public class EmailService {
 			message.setText("test");
 			emailSender.send(message);
 		} catch (Exception ex) {
-			throw new EmailException(messages.get("error.token.unabletosend"));
+			throw new EmailException(messages.get("error.token.unabletosend", email));
 		}
 	}
 	

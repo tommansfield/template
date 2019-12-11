@@ -11,11 +11,11 @@ import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("api/${app.version}/user")
-@Api(tags="User services", description="Operations for user information")
+@Api(tags="User services", description="Operations for retrieving user information")
 public class UserController {
 	
 	@GetMapping("/me")
-	@ApiOperation(value = "Request an email verification token")
+	@ApiOperation(value = "Retrieve current user details")
 	public User getCurrentUser(@ApiIgnore @CurrentUser User user) {
 		return user;
 	}

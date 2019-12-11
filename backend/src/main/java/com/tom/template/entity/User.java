@@ -119,14 +119,14 @@ public class User implements Serializable {
 		
 	public Role addRole(Role role) {
 		if (!this.hasRole(role)) {
-			roles.add(role);
+			this.getRoles().add(role);
 		}
 		return role;
 	}
 
 	public void removeRole(Role role) {
 		if (this.hasRole(role)) {
-			roles.remove(role);
+			this.getRoles().remove(role);
 		}
 	}
 

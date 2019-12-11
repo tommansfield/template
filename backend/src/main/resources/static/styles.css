@@ -1,25 +1,69 @@
-.home {
-  height: 2000px;
-  text-align: center;
-  background-color: whitesmoke;
-  overflow: hidden; 
-  position: fixed;
-  width: 100%;
+* {
+    transition: all 0.6s;
 }
 
-.welcome {
-  vertical-align: middle;
-  margin:  5em auto;
-  text-align: center;
+body {
+    font-family: 'Lato', sans-serif;
+    color: #888;
+    margin: 0;
 }
 
-.welcome img {
-  width: 20%;
+.container {
+	display: table;
+	width: 100%;
+	height: 100vh;
+	text-align: center;
+}
+
+.center {
+	padding-bottom: 5em;
+	display: table-cell;
+  	vertical-align: middle;
+}
+
+.center img {
+  width: 25%;
   height: auto;
   margin: 2em;
 }
 
-p {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 1.2em;
+.center h1 {
+      font-size: 4em;
+      display: inline-block;
+      padding-right: 12px;
+      animation: type .5s alternate infinite;
+      margin: 20px 0px;
+}
+
+@keyframes type {
+      from {box-shadow: inset -3px 0px 0px #888;}
+      to {box-shadow: inset -3px 0px 0px transparent;}
+}
+
+
+.center p {
+  font-size: 1.5em;
+  color: #888;
+  margin: auto;
+}
+
+.center a:link {
+	text-decoration: none;
+}
+
+.center a:visited {
+	text-decoration: none;
+}
+
+.center a:hover {
+	text-decoration: underline;
+}
+
+.center a:active {
+	text-decoration: none;
+}
+
+#smaller {
+	font-size: 1.2em;
+	margin-top: 1em !Important;
 }

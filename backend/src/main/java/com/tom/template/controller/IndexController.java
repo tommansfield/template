@@ -19,7 +19,7 @@ public class IndexController {
 		String title = messages.get("home.title", properties.getName());
         model.addAttribute("title", title);
         model.addAttribute("swaggerUrl", properties.getSwaggerUrl());
-        return "index";
+        return "index"; 
 	}
 	
 }

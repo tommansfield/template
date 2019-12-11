@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -8,9 +7,9 @@
 <body>
 	<div class="container">
 		<div class="center">
-			<img th:src="@{logo.png}"/>
-			<p th:text="'Welcome to the ' + ${title} +'.'">
-			<p id="smaller">Head to the <a th:href='${swaggerUrl}'>swagger</a> to get started.</p>
+			<h1 th:text="'Error ' + ${status} + ': '"></h1>
+			<p th:text="${message}"></p>
+			<p id="smaller"><a href="/">Go home</a></p>
 		</div>
 	</div>
 </body>

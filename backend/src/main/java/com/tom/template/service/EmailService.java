@@ -1,10 +1,9 @@
 package com.tom.template.service;
 
-import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import com.tom.template.exception.InternalServerException;
+import com.tom.template.exception.EmailException;
 import com.tom.template.util.MessageUtils;
 import com.tom.template.util.TokenType;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +22,8 @@ public class EmailService {
 			message.setSubject("hi");
 			message.setText("test");
 			emailSender.send(message);
-		} catch (MailException ex) {
-			throw new InternalServerException(messages.get("error.token.unabletosend"));
+		} catch (Exception ex) {
+			throw new EmailException(messages.get("error.token.unabletosend"));
 		}
 	}
 	

@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import com.tom.template.security.RestAuthEntryPoint;
+import com.tom.template.security.AuthEntryPoint;
 import com.tom.template.security.oauth2.OAuth2FailureHandler;
 import com.tom.template.security.oauth2.OAuth2RequestRepository;
 import com.tom.template.security.oauth2.OAuth2SuccessHandler;
@@ -28,10 +28,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private final UserService userService;
 	private final OAuth2UserService oAuth2UserService;
-    private final OAuth2SuccessHandler successHandler;
-    private final OAuth2FailureHandler failureHandler;
-    private final TokenAuthFilter tokenAuthenticationFilter;
-    private final OAuth2RequestRepository oAuth2RequestRepository;
+	private final OAuth2SuccessHandler successHandler;
+	private final OAuth2FailureHandler failureHandler;
+	private final TokenAuthFilter tokenAuthenticationFilter;
+	private final OAuth2RequestRepository oAuth2RequestRepository;
 
 	@Bean
 	@Override
@@ -43,12 +43,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public BCryptPasswordEncoder encoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
+
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userService).passwordEncoder(encoder());
 	}
-	
+
 	@Override
 	  protected void configure(HttpSecurity http) throws Exception {
 		// @formatter:off
@@ -62,12 +62,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	    	.and()
 	    	.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 	    	.and()
-	    	.exceptionHandling().authenticationEntryPoint(new RestAuthEntryPoint())
+	    	.exceptionHandling().authenticationEntryPoint(new AuthEntryPoint())
 	    	.and()
 	    	.authorizeRequests()
 	    		.antMatchers("/**/**.ico", "/**/**.png","/**/**.jpg", "/**/**.css", "/**/**.js", "/**/**.html").permitAll()
-    			.antMatchers("/", "/error/**", "/login/**", "/oauth2/**", "/auth/**", "/console/**").permitAll()
-    			.anyRequest().authenticated()
+    			.antMatchers("/console/**", "/admin").hasAnyRole("ADMIN")
+    			.antMatchers("/auth/callback", "/api/**").authenticated()
     		.and()
    			.oauth2Login()
 	   			.authorizationEndpoint().baseUri("/oauth2/authorize")
@@ -82,5 +82,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	    // @formatter:on
 	    http.addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 	  }
-
 }

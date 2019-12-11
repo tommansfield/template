@@ -1,5 +1,6 @@
 package com.tom.template.exception;
 
+import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -17,7 +18,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.tom.template.dto.CustomErrorResponse;
 
 @ControllerAdvice
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
@@ -25,18 +26,38 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   HttpStatus status, WebRequest request) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", new Date());
-        body.put("status", status.value());
-        
+        body.put("status", status.value());   
         List<String> errors = ex.getBindingResult()
-                .getAllErrors()
-                .stream()
-                .map(x -> x.getDefaultMessage())
-                .collect(Collectors.toList());
+                .getAllErrors().stream().map(x -> x.getDefaultMessage()).collect(Collectors.toList());
         body.put("errors", errors);
-        errors.forEach(e -> {
-        	System.out.println(e);
-        });
         return new ResponseEntity<>(body, headers, status);
+    }
+    
+    @ExceptionHandler({AuthRequestException.class, OAuth2Exception.class, AccessDeniedException.class })
+    public ResponseEntity<CustomErrorResponse> customHandleAuthRequest(Exception ex, WebRequest request) {
+        CustomErrorResponse errors = new CustomErrorResponse();
+        errors.setTimestamp(LocalDateTime.now());
+        errors.setError(ex.getMessage());
+        errors.setStatus(HttpStatus.UNAUTHORIZED.value());
+        return new ResponseEntity<>(errors, HttpStatus.UNAUTHORIZED);
+    }
+    
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<CustomErrorResponse> customHandleBadRequest(Exception ex, WebRequest request) {
+        CustomErrorResponse errors = new CustomErrorResponse();
+        errors.setTimestamp(LocalDateTime.now());
+        errors.setError(ex.getMessage());
+        errors.setStatus(HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+    
+    @ExceptionHandler(EmailException.class)
+    public ResponseEntity<CustomErrorResponse> customHandleEmail(Exception ex, WebRequest request) {
+        CustomErrorResponse errors = new CustomErrorResponse();
+        errors.setTimestamp(LocalDateTime.now());
+        errors.setError(ex.getMessage());
+        errors.setStatus(HttpStatus.BAD_GATEWAY.value());
+        return new ResponseEntity<>(errors, HttpStatus.BAD_GATEWAY);
     }
     
     @ExceptionHandler(ResourceNotFoundException.class)

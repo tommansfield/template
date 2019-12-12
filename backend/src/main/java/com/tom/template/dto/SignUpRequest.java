@@ -7,11 +7,13 @@ import com.tom.template.util.validation.EmailNotInUse;
 import com.tom.template.util.validation.Password;
 import com.tom.template.util.validation.PasswordMatches;
 import com.tom.template.util.validation.ValidEmail;
+import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
 @PasswordMatches
+@ApiModel(description = "Create a new user account")
 public class SignUpRequest implements Password {
 	
 	@ValidEmail

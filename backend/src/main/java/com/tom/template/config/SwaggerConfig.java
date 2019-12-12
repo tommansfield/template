@@ -2,8 +2,10 @@ package com.tom.template.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import com.google.common.base.Predicates;
 import lombok.RequiredArgsConstructor;
+import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -14,6 +16,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
+@Import(BeanValidatorPluginsConfiguration.class) 
 @RequiredArgsConstructor
 public class SwaggerConfig {   
 	
@@ -26,7 +29,7 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.any())
                 .paths(Predicates.not(PathSelectors.regex("/error/*")))
                 .build()
-                .apiInfo(apiInfo());                                       
+                .apiInfo(apiInfo());
     }
     
     private ApiInfo apiInfo() {

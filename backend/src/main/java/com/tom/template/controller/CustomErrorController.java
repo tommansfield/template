@@ -33,9 +33,9 @@ public class CustomErrorController implements ErrorController {
 		String exception = (String) request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);
 		String message = (String) request.getAttribute(RequestDispatcher.ERROR_MESSAGE);
 		
-		if (status >= 400) {
-			if (exception != null) log.error(exception);
-			if (message != null) log.error(message);
+		if (status >= 500) {
+			log.error(exception);
+			log.error(message);
 		}
 		message = messages.get("error." + String.valueOf(status));
 		message = message == null ? messages.get("error.500"): message;

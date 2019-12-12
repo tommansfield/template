@@ -4,8 +4,6 @@ localhost:8443/oauth2/authorize/github?redirect_uri=/auth/callback
 
 ===== Easy =====
 
-Add path to custom error
-Check for redundant messages
 Add entity information and auth to swagger & return types
 Find shortcut for swagger return types.
 Research 'select a spec' for swagger

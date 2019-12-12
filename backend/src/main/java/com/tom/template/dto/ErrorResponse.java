@@ -8,11 +8,19 @@ import lombok.Setter;
 
 @NoArgsConstructor
 @Getter @Setter
-public class CustomErrorResponse {
+public class ErrorResponse {
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDateTime timestamp;
     private int status;
-    private String error;
+    private String message;
+    private String path;
+    
+    public ErrorResponse(int status, String message, String path) {
+    	this.timestamp = LocalDateTime.now();
+    	this.status = status;
+    	this.message = message;
+    	this.path = path;
+    }
 	    
 }

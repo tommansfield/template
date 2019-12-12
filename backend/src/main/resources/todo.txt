@@ -10,7 +10,7 @@ Add entity information and auth to swagger & return types
 Find shortcut for swagger return types.
 Research 'select a spec' for swagger
 Create login page.
-Create user-admin methods
+Create user-admin cmethods
 Finish mail
 Add dev/prod env - find way to inject sample data. Environmental variables?
 Fix SSL

@@ -33,7 +33,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
     	String targetUrl = determineTargetUrl(request, response); 
     	clearAuthenticationAttributes(request, response);
-    	TokenResponse token = tokenProvider.createToken(((OAuthUser) authentication.getPrincipal()).getId());
+    	TokenResponse token = tokenProvider.createAccessToken(((OAuthUser) authentication.getPrincipal()).getId());
     	response.setHeader("token", Base64.getEncoder().encodeToString(token.getAccessToken().getBytes()));
     	request.getRequestDispatcher(targetUrl).forward(request, response);
     }

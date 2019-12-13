@@ -25,7 +25,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tom.template.security.AuthProvider;
-import com.tom.template.util.TokenType;
 import com.tom.template.util.validation.ValidEmail;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -96,13 +95,11 @@ public class User implements Serializable {
 		this.lastName = lastName;
 		this.provider = AuthProvider.LOCAL;
 		this.roles = Collections.singleton(Role.USER);
-		this.setTokens(Collections.singleton(new VerificationToken(this, TokenType.VERIFYEMAIL)));
 	}
 
 	public User(AuthProvider provider) {
 		this.provider = provider;
 		this.roles = Collections.singleton(Role.USER);
-		this.setTokens(Collections.singleton(new VerificationToken(this, TokenType.VERIFYEMAIL)));
 	}
 	
 	public User(String email, String password, Set<Role> roles) {

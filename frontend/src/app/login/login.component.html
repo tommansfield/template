@@ -1,1 +1,15 @@
-
+<h4>Login</h4>
+<form>
+  <label>Email: <input type="text" name="email" [(ngModel)]="loginRequest.email" />
+  </label>
+  <label>Password: <input type="password" name="password" [(ngModel)]="loginRequest.password"/>
+ </label>
+ <label>remember me? <input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe">
+ </label>
+  <button type="submit" (click)="login()">Log in</button>
+</form>
+<div *ngIf="errors">Error:
+  <ul>
+    <li *ngFor="let error of errors">{{error}}</li>
+  </ul>
+</div>

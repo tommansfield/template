@@ -30,7 +30,8 @@ public class Role implements Serializable {
 	public static final Role ADMIN = new Role(1L, "ADMIN");
 	public static final Role USER = new Role(2L, "USER");
 	public static final Role VERIFIED_USER = new Role(3L, "VERIFIED_USER");
-	public static final Role RESET_PASSWORD = new Role(4L, "RESET_PASSWORD");
+	public static final Role HAS_PASSWORD = new Role(4L, "HAS_PASSWORD");
+	public static final Role RESET_PASSWORD = new Role(5L, "RESET_PASSWORD");
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;

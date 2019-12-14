@@ -55,6 +55,7 @@ public class AccountService {
 			throw new AuthRequestException(messages.get("error.auth.wrongpassword"));
 		}
 		user.setPassword(changePassword.getPassword());
+		user.addRole(Role.HAS_PASSWORD);
 		userRep.save(user);
 	}
 	

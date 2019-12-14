@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -85,7 +87,6 @@ public class User implements Serializable {
 	@JoinTable(name = "user_roles",
 		joinColumns = @JoinColumn(name = "user_id"),
 		inverseJoinColumns = @JoinColumn(name = "role_id"))
-	@JsonIgnore
 	private Set<Role> roles;
 	
 	public User(String email, String password, String firstName, String lastName) {
@@ -94,7 +95,7 @@ public class User implements Serializable {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.provider = AuthProvider.LOCAL;
-		this.roles = Collections.singleton(Role.USER);
+		this.roles = Stream.of(Role.USER, Role.HAS_PASSWORD).collect(Collectors.toSet());
 	}
 
 	public User(AuthProvider provider) {

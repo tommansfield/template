@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import com.tom.template.config.Properties;
 import com.tom.template.exception.AuthRequestException;
 import com.tom.template.exception.BadRequestException;
@@ -28,13 +29,19 @@ public class CustomErrorController implements ErrorController {
 	private final MessageUtils messages;
 
 	@GetMapping("/error")
+	public String getError(HttpServletRequest request, Model model) {
+		return handleError(request, model);
+	}
+	
+	@PostMapping("/error")
+	public String postError(HttpServletRequest request, Model model) {
+		return handleError(request, model);
+	}
+	
 	public String handleError(HttpServletRequest request, Model model) {
 		int status = (int) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-		String exception = (String) request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);
 		String message = (String) request.getAttribute(RequestDispatcher.ERROR_MESSAGE);
-		
 		if (status >= 500) {
-			log.error(exception);
 			log.error(message);
 		}
 		message = messages.get("error." + String.valueOf(status));

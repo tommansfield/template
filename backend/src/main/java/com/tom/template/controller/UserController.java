@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
-@RequestMapping("api/${app.version}/user")
+@RequestMapping("${app.baseUrl}/user")
 @Api(tags="User services", description="Operations for retrieving user information")
 public class UserController {
 	

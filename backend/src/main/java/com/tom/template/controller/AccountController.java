@@ -23,7 +23,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/${app.version}/account")
+@RequestMapping("${app.baseUrl}/account")
 @Api(tags="Account Services", description="Operations for user account maintenance")
 public class AccountController {
 	

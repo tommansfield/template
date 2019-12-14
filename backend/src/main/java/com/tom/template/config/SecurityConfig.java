@@ -44,6 +44,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 
+	@Bean
+	public AuthEntryPoint authEntryPoint() {
+		return new AuthEntryPoint();
+	}
+	
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userService).passwordEncoder(encoder());
@@ -62,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	    	.and()
 	    	.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 	    	.and()
-	    	.exceptionHandling().authenticationEntryPoint(new AuthEntryPoint())
+	    	.exceptionHandling().authenticationEntryPoint(authEntryPoint())
 	    	.and()
 	    	.authorizeRequests()
 	    		.antMatchers("/**/**.ico", "/**/**.png","/**/**.jpg", "/**/**.css", "/**/**.js", "/**/**.html").permitAll()

@@ -1,14 +1,11 @@
-localhost:8443/oauth2/authorize/facebook?redirect_uri=/auth/callback
-localhost:8443/oauth2/authorize/google?redirect_uri=/auth/callback
-localhost:8443/oauth2/authorize/github?redirect_uri=/auth/callback
-
-===== Easy =====
+localhost:8080/oauth2/authorize/facebook?redirect_uri=/auth/callback
+localhost:8080/oauth2/authorize/google?redirect_uri=/auth/callback
+localhost:8080/oauth2/authorize/github?redirect_uri=/auth/callback
 
 Add entity information and auth to swagger & return types
 Find shortcut for swagger return types.
-Research 'select a spec' for swagger
 Create login page.
-Create user-admin cmethods
+Create user-admin methods
 Finish mail
 Add dev/prod env - find way to inject sample data. Environmental variables?
 Fix SSL
@@ -16,3 +13,4 @@ Re-git with dummy passwords
 Explore metrics - simplicity
 Microservice launching ?
 http://82.237.94.50:8080/
+Fix github error

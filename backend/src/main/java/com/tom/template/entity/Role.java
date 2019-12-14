@@ -34,6 +34,7 @@ public class Role implements Serializable {
 	public static final Role RESET_PASSWORD = new Role(5L, "RESET_PASSWORD");
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonIgnore
 	private Long id;
 	
 	@NotEmpty(message = "{error.role.name.empty}")

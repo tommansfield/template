@@ -53,9 +53,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     }
     
     private boolean isAuthorizedRedirectUri(String uri) {
-    	if (uri.equals(properties.getAuth().getInternalCallbackUri())) {
-    		return true;
-    	}
         URI clientRedirectUri = URI.create(uri);
         return properties.getAuth().getAuthorizedRedirectUris()
                 .stream()

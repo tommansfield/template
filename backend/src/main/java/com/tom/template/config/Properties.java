@@ -27,7 +27,6 @@ public class Properties {
 		private String[] grantTypes;
 		private String[] scopes;
 		private int tokenValidityMSecs;
-		private String internalCallbackUri;
 		private List<String> authorizedRedirectUris = new ArrayList<>();
 	}
 	

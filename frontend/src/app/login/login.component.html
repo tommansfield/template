@@ -7,6 +7,7 @@
  <label>remember me? <input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe">
  </label>
   <button type="submit" (click)="login()">Log in</button>
+  <button type="submit"><a target="_self" href="localhost:8080/oauth2/authorize/facebook?redirect_uri=/auth/callback">Facebook</a></button>
 </form>
 <div *ngIf="errors">Error:
   <ul>

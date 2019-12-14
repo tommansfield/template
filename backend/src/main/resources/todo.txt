@@ -1,11 +1,13 @@
-localhost:8080/oauth2/authorize/facebook?redirect_uri=/auth/callback
-localhost:8080/oauth2/authorize/google?redirect_uri=/auth/callback
-localhost:8080/oauth2/authorize/github?redirect_uri=/auth/callback
+localhost:8080/oauth2/authorize/facebook?redirect_uri=localhost:4200/oauth2callback
+localhost:8080/oauth2/authorize/google?redirect_uri=localhost:4200/oauth2callback
+localhost:8080/oauth2/authorize/github?redirect_uri=localhost:4200/oauth2callback
 
 Add entity information and auth to swagger & return types
+Change security context to user details? Add DTOs
 Find shortcut for swagger return types.
+Research 'select a spec' for swagger
 Create login page.
-Create user-admin methods
+Create user-admin cmethods
 Finish mail
 Add dev/prod env - find way to inject sample data. Environmental variables?
 Fix SSL

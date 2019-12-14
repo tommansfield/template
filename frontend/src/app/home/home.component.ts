@@ -14,7 +14,6 @@ export class HomeComponent implements OnInit {
   }
 
   logout(): void {
-  //  this.cookie.delete('access_token');
     this.router.navigate(['/login']);
   }
 

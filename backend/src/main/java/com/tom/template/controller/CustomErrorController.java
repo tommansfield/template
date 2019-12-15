@@ -41,16 +41,16 @@ public class CustomErrorController implements ErrorController {
 	public String handleError(HttpServletRequest request, Model model) {
 		int status = (int) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 		String message = (String) request.getAttribute(RequestDispatcher.ERROR_MESSAGE);
-		if (status >= 500) {
+		if (status >= 400 && message != null) {
 			log.error(message);
 		}
-		message = messages.get("error." + String.valueOf(status));
-		message = message == null ? messages.get("error.500"): message;
-		
 		if (isHtmlRequest(request)) {
+			message = messages.get("error." + String.valueOf(status));
+			message = message == null ? messages.get("error.500"): message;
 			model.addAttribute("title", properties.getName());
 			model.addAttribute("status", String.valueOf(status));
 			model.addAttribute("message", message);
+			model.addAttribute("frontEndUri", properties.getFrontEndUri());
 			return "error";
 		} else {
 			return sendJSONError(status, message);

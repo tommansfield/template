@@ -9,7 +9,7 @@
 		<div class="center">
 			<h1 th:text="'Error ' + ${status} + ': '"></h1>
 			<p th:text="${message}"></p>
-			<p id="smaller"><a href="/">Go home</a></p>
+			<p id="smaller"><a th:href="${frontEndUri}">Go home</a></p>
 		</div>
 	</div>
 </body>

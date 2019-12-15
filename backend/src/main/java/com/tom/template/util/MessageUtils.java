@@ -2,6 +2,7 @@ package com.tom.template.util;
 
 import java.util.Locale;
 import org.springframework.context.MessageSource;
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,12 @@ public class MessageUtils {
 	Locale locale;
 	
 	public String get(String message, Object... args) {
-		return messageSource().getMessage(message, args, locale);
+		try {
+			return messageSource().getMessage(message, args, locale);
+		} catch(NoSuchMessageException e) {
+			return "No message found";
+		}
+		 
 	}
 	
 	@Bean

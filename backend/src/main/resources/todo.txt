@@ -1,7 +1,8 @@
-localhost:8080/oauth2/authorize/facebook?redirect_uri=localhost:4200/oauth2callback
-localhost:8080/oauth2/authorize/google?redirect_uri=localhost:4200/oauth2callback
-localhost:8080/oauth2/authorize/github?redirect_uri=localhost:4200/oauth2callback
+localhost:8080/oauth2/authorize/facebook?redirect_uri=http://localhost:8081/oauth2callback
+localhost:8080/oauth2/authorize/google?redirect_uri=http://localhost:8081/oauth2callback
+localhost:8080/oauth2/authorize/github?redirect_uri=http://localhost:8081/oauth2callback
 
+Add specific exception for unauthorized redirect url
 Add entity information and auth to swagger & return types
 Change security context to user details? Add DTOs
 Find shortcut for swagger return types.

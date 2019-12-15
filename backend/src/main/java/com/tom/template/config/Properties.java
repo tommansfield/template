@@ -15,6 +15,7 @@ public class Properties {
 	private String version;
 	private String host;
 	private String swaggerUrl;
+	private String frontEndUri;
 	private final Auth auth = new Auth();
 	private final Cookies cookies = new Cookies();
 	private final Mail mail = new Mail();

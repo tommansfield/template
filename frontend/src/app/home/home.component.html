@@ -1,2 +1,14 @@
 <h4>Home</h4>
 <button type="submit" (click)="logout()">Log out</button>
+
+<div *ngIf="user">
+  <img src="{{user.imageUrl}}"/>
+  <ul>
+    <li>Email: {{user.email}}</li>
+    <li *ngIf="user.firstName || user.lastName">Name: {{user.firstName}} {{user.lastName}}</li>
+    <li>Type: {{user.provider}}</li>
+    <li>Created: {{user.created | date : medium}}</li>
+    <li>Last login: {{user.lastLogin | date : medium}}</li>
+    <li>Roles: <span *ngFor="let role of user.roles; let last = last;">{{role.name | titlecase }}<span *ngIf="!last">, </span></span></li>
+  </ul>
+</div>

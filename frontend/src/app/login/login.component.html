@@ -1,16 +1,28 @@
-<h4>Login</h4>
-<form>
-  <label>Email: <input type="text" name="email" [(ngModel)]="loginRequest.email" />
-  </label>
-  <label>Password: <input type="password" name="password" [(ngModel)]="loginRequest.password"/>
- </label>
- <label>remember me? <input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe">
- </label>
-  <button type="submit" (click)="login()">Log in</button>
-  <button type="submit"><a target="_self" href="localhost:8080/oauth2/authorize/facebook?redirect_uri=/auth/callback">Facebook</a></button>
-</form>
-<div *ngIf="errors">Error:
-  <ul>
-    <li *ngFor="let error of errors">{{error}}</li>
-  </ul>
+<div class="login-page">
+  <div class="login-form">
+    <form>
+      <h4>Login</h4>
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" name="email" class="form-control" placeholder="Enter email" [(ngModel)]="loginRequest.email">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" name="password" class="form-control" placeholder="Password" [(ngModel)]="loginRequest.password">
+      </div>
+      <div class="form-check">
+        <input type="checkbox" name="rememberme" class="form-check-input" [(ngModel)]="rememberMe">
+        <label class="form-check-label" for="exampleCheck1">Remember me</label>
+      </div>
+      <button type="submit" class="btn btn-primary" (click)="login()">Submit</button>
+    </form>
+    <div>
+      <a [href]="facebookUrl">Facebook</a>
+    </div>
+    <div *ngIf="errors">
+      <ul>
+        <li *ngFor="let error of errors">{{error}}</li>
+      </ul>
+    </div>
+  </div>
 </div>

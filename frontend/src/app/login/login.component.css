@@ -1,0 +1,29 @@
+.login-page {
+  font-family: 'Lato', sans-serif;
+  font-size: 16px;
+  text-align: center;
+  height: 100vh;
+  width: 90%;
+  margin: auto;
+}
+
+.login-form {
+  margin-top: 2em;
+  text-align: left;
+  min-width: 200px;
+  max-width: 500px;
+  margin: 2em auto;
+}
+
+button {
+  margin: 1em 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+}

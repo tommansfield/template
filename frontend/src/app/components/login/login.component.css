@@ -1,0 +1,34 @@
+.login-page {
+  height: 100vh;
+  background-color: whitesmoke;
+}
+
+.login-form {
+  text-align: left;
+  min-width: 200px; 
+  max-width: 300px;
+  margin: auto;
+  padding-top: 2em;
+}
+
+#errors {
+  text-align: center;
+}
+
+button {
+  margin: 1em 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+h4 {
+  margin: 2;
+  text-align: center;
+}

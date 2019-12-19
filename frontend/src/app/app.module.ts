@@ -8,11 +8,11 @@ import { InjectionToken } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CookieService } from 'ngx-cookie-service';
 import { CustomHttpInterceptor } from './CustomHttpInterceptor';
-import { LoginComponent } from './login/login.component';
-import { SignupComponent } from './signup/signup.component';
-import { HomeComponent } from './home/home.component';
-import { CallbackComponent } from './callback/callback.component';
-import { NotFoundComponent } from './not-found/not-found.component';
+import { LoginComponent } from './components/login/login.component';
+import { SignupComponent } from './components/signup/signup.component';
+import { HomeComponent } from './components/home/home.component';
+import { CallbackComponent } from './callback.component';
+import { NotFoundComponent } from './not-found.component';
 import { ExternalUrlDirective } from './external-url.directive';
 import { Constants } from './Constants';
 

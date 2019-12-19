@@ -1,34 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { AuthService } from '../service/auth.service';
-import { LoginRequest } from '../dto/LoginRequest';
-import { Constants } from '../Constants';
+import { AuthService } from '../../service/auth.service';
+import { LoginRequest } from '../../dto/LoginRequest';
+import { Constants } from '../../Constants';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
-  private loginRequest: LoginRequest;
-  private rememberMe: boolean = true;
-  private errors: string[];
-  private facebookUrl = Constants.FACEBOOKURL;
+  public loginRequest: LoginRequest = new LoginRequest();
+  public rememberMe: boolean = true;
+  public errors: string[];
+ 
   constructor(
-    private authService: AuthService, 
+    private auth: AuthService, 
     private cookie: CookieService, 
-    private router: Router) { }
-
-  ngOnInit() {
-    this.loginRequest = new LoginRequest();
-  }
+    private router: Router) {}
 
   login(): void {
     this.errors = null;
     const timeout = this.rememberMe ? Constants.TOKENEXPIRATION : Constants.REMEMBERMEEXPIRATION;
-    this.authService.login(this.loginRequest)
+    this.auth.login(this.loginRequest)
       .subscribe(token => {
         this.cookie.set('access_token', token.accessToken, timeout, '/');
         this.router.navigate(['/home']);
@@ -38,8 +34,12 @@ export class LoginComponent implements OnInit {
       });
   }
 
-  facebookLogin() {
-    this.router.navigate(['/externalRedirect', { externalUrl: Constants.FACEBOOKURL }]);
+  getLoginPage(provider: string): string {
+    switch (provider) {
+      case 'facebook': return Constants.FACEBOOKURL;
+      case 'google': return Constants.GOOGLEURL;
+      case 'github': return Constants.GITHUBURL;
+    }
   }
   
 }

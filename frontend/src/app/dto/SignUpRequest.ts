@@ -5,6 +5,9 @@ export class SignUpRequest {
    password: string;
    matchingPassword: string;
 
+   construct() {
+   }
+   
    passwordsMatch(): boolean {
       return this.password === this.matchingPassword;
    }

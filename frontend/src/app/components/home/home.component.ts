@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { UserService } from '../service/user.service';
-import { Messages } from '../Messages';
-import { User } from '../entity/User';
+import { UserService } from '../../service/user.service';
+import { Messages } from '../../Messages';
+import { User } from '../../entity/User';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +12,7 @@ import { User } from '../entity/User';
 })
 export class HomeComponent implements OnInit {
 
-  private user: User;
+  public user: User;
 
   constructor(
     private router: Router, 

@@ -1,8 +1,5 @@
 export class Constants {
-
   
-  
- 
   private static APIHOST = 'localhost';
   private static APIPORT = '8080';
   private static APIVERSION = 'v1';
@@ -11,7 +8,7 @@ export class Constants {
 
   private static APPHOST = 'localhost';
   private static APPPORT = '8081';
-  public static CALLBACKURL = 'oauth2callback';
+  public static CALLBACKURL = 'authorize';
   public static APPBASEURL = `http://${Constants.APPHOST}:${Constants.APPPORT}`;
 
   public static FACEBOOKURL = `${Constants.APIBASEURL}/oauth2/authorize/facebook?redirect_uri=${Constants.APPBASEURL}/${Constants.CALLBACKURL}`;

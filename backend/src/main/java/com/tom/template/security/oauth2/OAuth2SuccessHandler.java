@@ -31,19 +31,18 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
     	TokenResponse token = tokenProvider.createAccessToken(((OAuthUser) authentication.getPrincipal()).getId());
     	String targetUrl = determineUrl(request, response, token.getAccessToken());
-    	System.out.println(targetUrl);
     	if (targetUrl != "UnauthorizedRequestURI") {
     		clearAuthenticationAttributes(request, response);
         	getRedirectStrategy().sendRedirect(request, response, targetUrl);
     	} else {
-    		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, messages.get("error.auth.unauthorizedredirect"));
+    		response.sendRedirect("/error?error=" + messages.get("error.auth.unauthorizedredirect") + "&code=401");
     	}
     }
 
 	private String determineUrl(HttpServletRequest request, HttpServletResponse response, String token) throws IOException {
         Optional<String> redirectUri = CookieUtils.getCookie(request, properties.getCookies().getRedirectCookieName()).map(Cookie::getValue);
         if(redirectUri.isPresent() && !isAuthorizedRedirectUri(redirectUri.get())) {
-        	return "UnauthorizedRequestURI";
+        	return null;
         }
         return String.format("%s/%s", redirectUri.get(), token);
 	}

@@ -8,7 +8,8 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import com.tom.template.config.Properties;
 import com.tom.template.exception.AuthRequestException;
 import com.tom.template.exception.BadRequestException;
@@ -28,16 +29,12 @@ public class CustomErrorController implements ErrorController {
 	private final Properties properties;
 	private final MessageUtils messages;
 
-	@GetMapping("/error")
-	public String getError(HttpServletRequest request, Model model) {
+	@RequestMapping("/error")
+	public String getError(@RequestParam String error, HttpServletRequest request, Model model) {
 		return handleError(request, model);
 	}
 	
-	@PostMapping("/error")
-	public String postError(HttpServletRequest request, Model model) {
-		return handleError(request, model);
-	}
-	
+	@GetMapping("/internalerror")
 	public String handleError(HttpServletRequest request, Model model) {
 		int status = (int) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 		String message = (String) request.getAttribute(RequestDispatcher.ERROR_MESSAGE);

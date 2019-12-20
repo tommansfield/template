@@ -23,7 +23,7 @@ export class LoginComponent {
 
   login(): void {
     this.errors = null;
-    const timeout = this.rememberMe ? Constants.TOKENEXPIRATION : Constants.REMEMBERMEEXPIRATION;
+    const timeout = this.rememberMe ? Constants.REMEMBERMEEXPIRATION : Constants.TOKENEXPIRATION;
     this.auth.login(this.loginRequest)
       .subscribe(token => {
         this.cookie.set('access_token', token.accessToken, timeout, '/');

@@ -1,6 +1,7 @@
 package com.tom.template;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.boot.CommandLineRunner;
@@ -31,8 +32,8 @@ public class Application {
 				roleRep.saveAll(roles);
 			}
 			if (userRep.count() == 0) {
-				userRep.save(new User("admin@admin.com", encoder.encode("password"), 
-						Arrays.asList(Role.ADMIN, Role.USER).stream().collect(Collectors.toSet())));
+				userRep.save(new User("admin@admin.com", encoder.encode("password"),
+						new HashSet<>(Arrays.asList(Role.ADMIN, Role.USER))));
 			}
 		};
 	}

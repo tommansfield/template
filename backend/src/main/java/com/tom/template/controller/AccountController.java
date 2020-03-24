@@ -29,50 +29,50 @@ public class AccountController {
 	
 	private final AccountService accountService;
 	private final MessageUtils messages;
-	
-	@ApiOperation(value = "Request an email verification token")
+
+	@ApiOperation(value = "Request an email verification token", response = ApiResponse.class)
 	@PostMapping("/requestverifyemailtoken")
 	public ResponseEntity<ApiResponse> createVerificationToken(@ApiIgnore @CurrentUser User user) {
 		accountService.createVerificationToken(user, TokenType.VERIFYEMAIL);
 		return new ApiResponse(HttpStatus.CREATED, messages.get("user.token.sent")).send();
 	} 
 	
-	@ApiOperation(value = "Request a password reset token")
+	@ApiOperation(value = "Request a password reset token", response = ApiResponse.class)
 	@PostMapping("/requestresetpasswordtoken")
 	public ResponseEntity<ApiResponse> createdResetPasswordToken(@ApiIgnore @CurrentUser User user) {
 		accountService.createVerificationToken(user, TokenType.RESETPASSWORD);
 		return new ApiResponse(HttpStatus.CREATED, messages.get("user.token.sent")).send();
 	}
 	
-	@ApiOperation(value = "Add a password for an externally created account")
+	@ApiOperation(value = "Add a password for an externally created account", response = ApiResponse.class)
 	@PostMapping("/addpassword")
 	public ResponseEntity<ApiResponse> addPassword(@ApiIgnore @CurrentUser User user, @Valid @RequestBody ChangePassword changePass) {
 		accountService.changePassword(user, changePass);
 		return new ApiResponse(HttpStatus.OK, messages.get("user.password.added")).send();
 	}
 	
-	@ApiOperation(value = "Reset a forgotten password")
+	@ApiOperation(value = "Reset a forgotten password", response = ApiResponse.class)
 	@PostMapping("/resetpassword")
-	public ResponseEntity<ApiResponse> resetPassword(@ApiIgnore @CurrentUser User user, @RequestParam(required = true) String token) {
+	public ResponseEntity<ApiResponse> resetPassword(@ApiIgnore @CurrentUser User user, @RequestParam String token) {
 		accountService.resetPassword(user, token);
 		return new ApiResponse(HttpStatus.OK, messages.get("user.password.reset")).send();
 	}
 	
-	@ApiOperation(value = "Modify a password")
+	@ApiOperation(value = "Modify a password", response = ApiResponse.class)
 	@PostMapping("/changepassword")
 	public ResponseEntity<ApiResponse> changePassword(@ApiIgnore @CurrentUser User user, @Valid @RequestBody ChangePassword changePass) {
 		accountService.changePassword(user, changePass);
 		return new ApiResponse(HttpStatus.OK, messages.get("user.password.changed")).send();
 	}
 	
-	@ApiOperation(value = "Verify an email address")
+	@ApiOperation(value = "Verify an email address", response = ApiResponse.class)
 	@PostMapping("/verifyemail")
-	public ResponseEntity<ApiResponse> verifyEmail(@ApiIgnore @CurrentUser User user, @RequestParam(required = true) String token) {
+	public ResponseEntity<ApiResponse> verifyEmail(@ApiIgnore @CurrentUser User user, @RequestParam String token) {
 		accountService.verifyEmail(user, token);
 		return new ApiResponse(HttpStatus.OK, messages.get("user.email.verified")).send();
 	}
 	
-	@ApiOperation(value = "Modify an email address")
+	@ApiOperation(value = "Modify an email address", response = ApiResponse.class)
 	@PostMapping("/changeemail")
 	public ResponseEntity<ApiResponse> changeEmail(@ApiIgnore @CurrentUser User user, @Valid @RequestBody ChangeEmail changeEmail) {
 		accountService.changeEmail(user, changeEmail);

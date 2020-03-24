@@ -34,21 +34,30 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
-	private final MessageUtils messages;
-	private final TokenProvider tokenProvider;
-	private final UserRepository userRep;
-	
-	@Lazy
-	@Autowired
+	private MessageUtils messages;
+	private UserRepository userRep;
+	private TokenProvider tokenProvider;
 	private AccountService accountService;
-	
-	@Lazy
-	@Autowired 
 	private PasswordEncoder encoder;
-	
-	@Lazy
-	@Autowired 
 	private AuthenticationManager authenticationManager;
+
+	@Lazy @Autowired
+	public UserService(MessageUtils messages,
+					   UserRepository userRep,
+					   TokenProvider tokenProvider,
+					   AccountService accountService,
+					   PasswordEncoder encoder,
+					   AuthenticationManager authenticationManager) {
+		this.messages = messages;
+		this.userRep = userRep;
+		this.tokenProvider = tokenProvider;
+		this.accountService = accountService;
+		this.encoder = encoder;
+		this.authenticationManager = authenticationManager;
+	}
+
+
+
 	
 	@Override
 	public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {

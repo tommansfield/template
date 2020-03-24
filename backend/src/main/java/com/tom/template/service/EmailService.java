@@ -15,7 +15,7 @@ public class EmailService {
 	public final MessageUtils messages;
 	public final JavaMailSender emailSender;
 
-	public void sendMail(String email, TokenType tokenType) {
+	void sendMail(String email, TokenType tokenType) {
 		try {
 			SimpleMailMessage message = new SimpleMailMessage();
 			message.setTo(email);

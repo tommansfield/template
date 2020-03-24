@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import lombok.SneakyThrows;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -27,11 +29,12 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 	private final TokenProvider tokenProvider;
     private final OAuth2RequestRepository oAuth2RequestRepository;
     
+    @SneakyThrows
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
     	TokenResponse token = tokenProvider.createAccessToken(((OAuthUser) authentication.getPrincipal()).getId());
-    	String targetUrl = determineUrl(request, response, token.getAccessToken());
-    	if (targetUrl != "UnauthorizedRequestURI") {
+    	String targetUrl = determineUrl(request, token.getAccessToken());
+    	if (targetUrl != null) {
     		clearAuthenticationAttributes(request, response);
         	getRedirectStrategy().sendRedirect(request, response, targetUrl);
     	} else {
@@ -39,16 +42,15 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     	}
     }
 
-	private String determineUrl(HttpServletRequest request, HttpServletResponse response, String token) throws IOException {
+	private String determineUrl(HttpServletRequest request, String token) {
         Optional<String> redirectUri = CookieUtils.getCookie(request, properties.getCookies().getRedirectCookieName()).map(Cookie::getValue);
-        if(redirectUri.isPresent() && !isAuthorizedRedirectUri(redirectUri.get())) {
-        	return null;
+        if(redirectUri.isPresent() && isAuthorizedRedirectUri(redirectUri.get())) {
+            return String.format("%s/%s", redirectUri.get(), token);
         }
-        return String.format("%s/%s", redirectUri.get(), token);
+        return null;
 	}
 
-	
-    protected void clearAuthenticationAttributes(HttpServletRequest request, HttpServletResponse response) {
+    private void clearAuthenticationAttributes(HttpServletRequest request, HttpServletResponse response) {
         super.clearAuthenticationAttributes(request);
         oAuth2RequestRepository.removeAuthRequestCookies(request, response);
     }
@@ -59,11 +61,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                 .stream()
                 .anyMatch(authorizedRedirectUri -> {
                     URI authorizedURI = URI.create(authorizedRedirectUri);
-                    if(authorizedURI.getHost().equalsIgnoreCase(clientRedirectUri.getHost())
-                            && authorizedURI.getPort() == clientRedirectUri.getPort()) {
-                        return true;
-                    }
-                    return false;
+                    return (authorizedURI.getHost().equalsIgnoreCase(clientRedirectUri.getHost())
+                            && authorizedURI.getPort() == clientRedirectUri.getPort());
                 });
     }
     

@@ -14,6 +14,7 @@ public class Properties {
 	private String description;
 	private String version;
 	private String host;
+	private String baseUrl;
 	private String swaggerUrl;
 	private String frontEndUri;
 	private final Auth auth = new Auth();
@@ -21,7 +22,7 @@ public class Properties {
 	private final Mail mail = new Mail();
 	
 	@Getter @Setter
-	public static class Auth {
+	 public static class Auth {
 		private String clientId;
 		private String secret;
 		private String tokenSecret;

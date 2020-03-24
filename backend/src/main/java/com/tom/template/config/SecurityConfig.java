@@ -34,21 +34,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private final OAuth2RequestRepository oAuth2RequestRepository;
 
 	@Bean
-	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		return super.authenticationManagerBean();
-	}
-
-	@Bean
 	public BCryptPasswordEncoder encoder() {
 		return new BCryptPasswordEncoder();
 	}
 
 	@Bean
-	public AuthEntryPoint authEntryPoint() {
-		return new AuthEntryPoint();
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
 	}
-	
+
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userService).passwordEncoder(encoder());
@@ -67,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	    	.and()
 	    	.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 	    	.and()
-	    	.exceptionHandling().authenticationEntryPoint(authEntryPoint())
+	    	.exceptionHandling().authenticationEntryPoint(new AuthEntryPoint())
 	    	.and()
 	    	.authorizeRequests()
 	    		.antMatchers("/**/**.ico", "/**/**.png","/**/**.jpg", "/**/**.css", "/**/**.js", "/**/**.html").permitAll()

@@ -8,10 +8,7 @@ import org.springframework.util.StringUtils;
 
 public class ValidEmailValidator implements ConstraintValidator<ValidEmail, String> {
 
-	private Pattern pattern;
-    private Matcher matcher;
     private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-+]+(.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,})$";
-    						
     
 	@Override
 	public void initialize(ValidEmail constraintAnnotation) {
@@ -22,14 +19,9 @@ public class ValidEmailValidator implements ConstraintValidator<ValidEmail, Stri
 		if (email == null || StringUtils.isEmpty(email)) {
 			return false;
 		}
-		pattern = Pattern.compile(EMAIL_PATTERN);
-		matcher = pattern.matcher(email);
+		Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+		Matcher matcher = pattern.matcher(email);
 		return matcher.matches();
-	}
-	
-	public static boolean isValid(String email) {
-		ValidEmailValidator validator = new ValidEmailValidator();
-		return validator.isValid(email, null);
 	}
 
 }

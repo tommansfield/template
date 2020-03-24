@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MessageUtils {
 
-	Locale locale;
+	private Locale locale;
 	
 	public String get(String message, Object... args) {
 		try {

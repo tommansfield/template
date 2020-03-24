@@ -21,7 +21,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-@Api(tags="Login Services", description="Operations for account creation and user login")
+@Api(tags="Login Services")
 public class LoginController {
 
 	private final UserService userService;
@@ -37,13 +37,6 @@ public class LoginController {
 	@ApiOperation(value = "Register a new account")
 	public ResponseEntity<TokenResponse> registerUser(@Valid @RequestBody SignUpRequest signup) {
 		TokenResponse token = userService.createUser(signup);
-		return ResponseEntity.ok(token);
-	}
-
-	@ApiIgnore
-	@GetMapping("/callback")
-	private ResponseEntity<TokenResponse> oAuth2TokenCallback(HttpServletRequest request, HttpServletResponse response) {
-		TokenResponse token = userService.processToken(response);
 		return ResponseEntity.ok(token);
 	}
 

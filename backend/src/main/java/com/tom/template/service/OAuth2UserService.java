@@ -23,10 +23,15 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class OAuth2UserService extends DefaultOAuth2UserService {
 
-	@Autowired
 	private MessageUtils messages;
-	@Autowired
 	private UserRepository userRep;
+
+	@Autowired
+	public OAuth2UserService(MessageUtils messages, UserRepository userRep) {
+		this.messages = messages;
+		this.userRep = userRep;
+	}
+
 
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
@@ -58,13 +63,13 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 		return OAuthUser.create(user);
 	}
 	
-	private User createOrUpdateUser(User user, OAuth2UserInfo userInfo) {
+	private void createOrUpdateUser(User user, OAuth2UserInfo userInfo) {
 		user.setFirstName(userInfo.getFirstName());
 		user.setLastName(userInfo.getLastName());
 		user.setEmail(userInfo.getEmail());
 		user.setImageUrl(userInfo.getImageUrl());
 		user.setLastLogin(new Date());
-		return userRep.save(user);
-	}
+        userRep.save(user);
+    }
 	
 }

@@ -42,7 +42,7 @@ public class CustomErrorController implements ErrorController {
 			log.error(message);
 		}
 		if (isHtmlRequest(request)) {
-			message = messages.get("error." + String.valueOf(status));
+			message = messages.get("error." + status);
 			message = message == null ? messages.get("error.500"): message;
 			model.addAttribute("title", properties.getName());
 			model.addAttribute("status", String.valueOf(status));
@@ -60,7 +60,7 @@ public class CustomErrorController implements ErrorController {
 		return acceptedMediaTypes.contains(MediaType.TEXT_HTML);
 	}
 
-	public String sendJSONError(int status, String message) {
+	private String sendJSONError(int status, String message) {
 		switch (status) {
 		case 400: throw new BadRequestException(message);
 		case 401:

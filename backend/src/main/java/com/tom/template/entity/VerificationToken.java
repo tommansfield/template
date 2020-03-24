@@ -46,22 +46,22 @@ public class VerificationToken implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
     private Date expirationDate;
 	
-	private static Date addMinutesToDate(int minutes) {
+	private static Date addMinutesToDate() {
 		Date date = new Date();
 	    final long ONE_MINUTE_IN_MILLIS = 60000;
 	    long timeInMs = date.getTime();
-	    return new Date(timeInMs + (minutes * ONE_MINUTE_IN_MILLIS));
+	    return new Date(timeInMs + (EXPIRATION * ONE_MINUTE_IN_MILLIS));
 	}
 	
 	public VerificationToken(User user, TokenType tokenType) {
 		this.user = user;
 		this.tokenType = tokenType;
 		this.token = UUID.randomUUID().toString();
-		this.expirationDate = addMinutesToDate(EXPIRATION);
+		this.expirationDate = addMinutesToDate();
 	}
 	
 	public boolean matches(String token) {
-		return this.token == token;
+		return this.token.equals(token);
 	}
 	
 }

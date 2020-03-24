@@ -30,10 +30,6 @@ public class CookieUtils {
         cookie.setMaxAge(maxAge);
         response.addCookie(cookie);
     }
-    
-    public static void deleteCookie(HttpServletResponse response, String name) {
-    	addCookie(response, name, null, 0);
-    }
 
     public static void deleteCookie(HttpServletRequest request, HttpServletResponse response, String name) {
         Cookie[] cookies = request.getCookies();

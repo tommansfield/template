@@ -109,17 +109,11 @@ public class User implements Serializable {
 		this.provider = AuthProvider.LOCAL;
 		this.roles = roles;
 	}
- 
-	public VerificationToken addToken(VerificationToken token) {
-		this.getTokens().add(token);
-		return token;
-	}
-		
-	public Role addRole(Role role) {
+
+	public void addRole(Role role) {
 		if (!this.hasRole(role)) {
 			this.getRoles().add(role);
 		}
-		return role;
 	}
 
 	public void removeRole(Role role) {
@@ -128,7 +122,7 @@ public class User implements Serializable {
 		}
 	}
 
-	public boolean hasRole(Role role) {
+	private boolean hasRole(Role role) {
 		return this.getRoles().contains(role);
 	}
 	

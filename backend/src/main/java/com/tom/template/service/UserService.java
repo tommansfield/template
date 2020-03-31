@@ -2,9 +2,11 @@ package com.tom.template.service;
 
 import java.util.Base64;
 import java.util.Date;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import com.tom.template.dto.LoginRequest;
 import com.tom.template.dto.SignUpRequest;
 import com.tom.template.dto.TokenResponse;
@@ -26,6 +29,7 @@ import com.tom.template.security.LocalUser;
 import com.tom.template.security.token.TokenProvider;
 import com.tom.template.util.MessageUtils;
 import com.tom.template.util.TokenType;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

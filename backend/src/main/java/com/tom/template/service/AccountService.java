@@ -1,8 +1,10 @@
 package com.tom.template.service;
 
 import javax.transaction.Transactional;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import com.tom.template.dto.ChangeEmail;
 import com.tom.template.dto.ChangePassword;
 import com.tom.template.entity.Role;
@@ -14,6 +16,7 @@ import com.tom.template.repository.TokenRepository;
 import com.tom.template.repository.UserRepository;
 import com.tom.template.util.MessageUtils;
 import com.tom.template.util.TokenType;
+
 import lombok.RequiredArgsConstructor;
 
 @Service

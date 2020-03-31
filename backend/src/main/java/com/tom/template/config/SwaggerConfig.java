@@ -3,7 +3,9 @@ package com.tom.template.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+
 import com.google.common.base.Predicates;
+
 import lombok.RequiredArgsConstructor;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.ApiInfoBuilder;

@@ -2,12 +2,15 @@ package com.tom.template.security.oauth2;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+
 import com.tom.template.config.Properties;
 import com.tom.template.util.CookieUtils;
+
 import lombok.RequiredArgsConstructor;
 
 @Component

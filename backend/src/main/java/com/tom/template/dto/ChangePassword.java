@@ -2,8 +2,10 @@ package com.tom.template.dto;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
 import com.tom.template.util.validation.Password;
 import com.tom.template.util.validation.PasswordMatches;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;

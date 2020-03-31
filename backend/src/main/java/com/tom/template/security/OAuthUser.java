@@ -2,9 +2,12 @@ package com.tom.template.security;
 
 import java.util.Collection;
 import java.util.Map;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+
 import com.tom.template.entity.User;
+
 import lombok.Getter;
 
 @Getter

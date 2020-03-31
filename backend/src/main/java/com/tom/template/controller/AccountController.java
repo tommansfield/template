@@ -1,6 +1,7 @@
 package com.tom.template.controller;
 
 import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.tom.template.dto.ApiResponse;
 import com.tom.template.dto.ChangeEmail;
 import com.tom.template.dto.ChangePassword;
@@ -16,6 +18,7 @@ import com.tom.template.security.CurrentUser;
 import com.tom.template.service.AccountService;
 import com.tom.template.util.MessageUtils;
 import com.tom.template.util.TokenType;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

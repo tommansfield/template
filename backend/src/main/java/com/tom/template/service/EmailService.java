@@ -3,9 +3,11 @@ package com.tom.template.service;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+
 import com.tom.template.exception.EmailException;
 import com.tom.template.util.MessageUtils;
 import com.tom.template.util.TokenType;
+
 import lombok.RequiredArgsConstructor;
 
 @Service

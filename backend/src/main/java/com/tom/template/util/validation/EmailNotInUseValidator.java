@@ -2,8 +2,10 @@ package com.tom.template.util.validation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+
 import com.tom.template.repository.UserRepository;
 
 public class EmailNotInUseValidator implements ConstraintValidator<EmailNotInUse, String> {

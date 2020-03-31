@@ -1,8 +1,10 @@
 package com.tom.template.controller;
 
 import java.util.List;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -10,12 +12,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import com.tom.template.config.Properties;
 import com.tom.template.exception.AuthRequestException;
 import com.tom.template.exception.BadRequestException;
 import com.tom.template.exception.InternalServerError;
 import com.tom.template.exception.ResourceNotFoundException;
 import com.tom.template.util.MessageUtils;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import springfox.documentation.annotations.ApiIgnore;

@@ -1,24 +1,25 @@
 package com.tom.template.security.oauth2;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.Optional;
-import javax.servlet.ServletException;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import lombok.SneakyThrows;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+
 import com.tom.template.config.Properties;
 import com.tom.template.dto.TokenResponse;
 import com.tom.template.security.OAuthUser;
 import com.tom.template.security.token.TokenProvider;
 import com.tom.template.util.CookieUtils;
 import com.tom.template.util.MessageUtils;
+
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 
 @Component
 @RequiredArgsConstructor

@@ -2,9 +2,12 @@ package com.tom.template.security.token;
 
 import java.util.Base64;
 import java.util.Date;
+
 import org.springframework.stereotype.Service;
+
 import com.tom.template.config.Properties;
 import com.tom.template.dto.TokenResponse;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

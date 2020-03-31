@@ -2,8 +2,10 @@ package com.tom.template.util.validation;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+
 import org.springframework.util.StringUtils;
 
 public class ValidEmailValidator implements ConstraintValidator<ValidEmail, String> {

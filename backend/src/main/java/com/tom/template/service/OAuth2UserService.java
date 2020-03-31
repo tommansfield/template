@@ -2,6 +2,7 @@ package com.tom.template.service;
 
 import java.util.Date;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -9,6 +10,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
 import com.tom.template.entity.User;
 import com.tom.template.exception.OAuth2Exception;
 import com.tom.template.repository.UserRepository;
@@ -17,6 +19,7 @@ import com.tom.template.security.OAuthUser;
 import com.tom.template.security.oauth2.userinfo.OAuth2UserInfo;
 import com.tom.template.security.oauth2.userinfo.OAuth2UserInfoFactory;
 import com.tom.template.util.MessageUtils;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

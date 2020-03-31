@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 import com.tom.template.security.AuthEntryPoint;
 import com.tom.template.security.oauth2.OAuth2FailureHandler;
 import com.tom.template.security.oauth2.OAuth2RequestRepository;
@@ -18,6 +19,7 @@ import com.tom.template.security.oauth2.OAuth2SuccessHandler;
 import com.tom.template.security.token.TokenAuthFilter;
 import com.tom.template.service.OAuth2UserService;
 import com.tom.template.service.UserService;
+
 import lombok.RequiredArgsConstructor;
 
 @Configuration

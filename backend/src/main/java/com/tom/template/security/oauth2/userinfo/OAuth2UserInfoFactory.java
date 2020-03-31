@@ -1,6 +1,7 @@
 package com.tom.template.security.oauth2.userinfo;
 
 import java.util.Map;
+
 import com.tom.template.exception.OAuth2Exception;
 import com.tom.template.security.AuthProvider;
 

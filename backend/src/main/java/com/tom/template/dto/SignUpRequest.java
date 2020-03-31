@@ -4,10 +4,12 @@ import javax.persistence.Column;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
 import com.tom.template.util.validation.EmailNotInUse;
 import com.tom.template.util.validation.Password;
 import com.tom.template.util.validation.PasswordMatches;
 import com.tom.template.util.validation.ValidEmail;
+
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;

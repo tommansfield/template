@@ -27,7 +27,7 @@ public class Application {
 
 	@Bean
 	CommandLineRunner init(RoleRepository roleRep, UserRepository userRep, BCryptPasswordEncoder encoder) {
-		return (args) -> {
+		return args -> {
 			if (roleRep.count() == 0) {
 				List<Role> roles = Arrays.asList(Role.ADMIN, Role.USER, Role.VERIFIED_USER, Role.RESET_PASSWORD);
 				roleRep.saveAll(roles);

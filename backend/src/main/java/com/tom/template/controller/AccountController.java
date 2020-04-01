@@ -27,7 +27,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("${app.baseUrl}/account")
-@Api(tags="Account Services", description="Operations for user account maintenance")
+@Api(tags="Account Services")
 public class AccountController {
 	
 	private final AccountService accountService;
